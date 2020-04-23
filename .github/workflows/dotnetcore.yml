@@ -26,10 +26,9 @@ jobs:
     - name: Pack Nuget Package
       run: dotnet pack
               --configuration Release
-              -p:PackageVersion=1.0.0.$(date +%Y%m%d%H%M%S)
     - name: Publish Nuget Package
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push "./BoolExpressions/bin/Release/BoolExpressions.1.0.1.nupkg" 
+      run: dotnet nuget push "./BoolExpressions/bin/Release/BoolExpressions*.nupkg" 
               --source https://api.nuget.org/v3/index.json
               --api-key "$NUGET_API_KEY"
