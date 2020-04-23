@@ -1,0 +1,16 @@
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\Solution\BoolExpressions\bin\Debug\netcoreapp2.2\BoolExpressions.deps.json
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\Solution\BoolExpressions\bin\Debug\netcoreapp2.2\BoolExpressions.dll
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\Solution\BoolExpressions\bin\Debug\netcoreapp2.2\BoolExpressions.pdb
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\Solution\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.csprojAssemblyReference.cache
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\Solution\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.AssemblyInfoInputs.cache
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\Solution\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.AssemblyInfo.cs
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\Solution\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.dll
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\Solution\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.pdb
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\BoolExpressions\bin\Debug\netcoreapp2.2\BoolExpressions.deps.json
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\BoolExpressions\bin\Debug\netcoreapp2.2\BoolExpressions.dll
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\BoolExpressions\bin\Debug\netcoreapp2.2\BoolExpressions.pdb
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.csprojAssemblyReference.cache
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.AssemblyInfoInputs.cache
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.AssemblyInfo.cs
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.dll
+C:\RetailRocket\Sources\Sandbox\BoolExpressions\BoolExpressions\obj\Debug\netcoreapp2.2\BoolExpressions.pdb
