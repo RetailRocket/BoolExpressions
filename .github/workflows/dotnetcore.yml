@@ -24,4 +24,6 @@ jobs:
     - name: Test
       run: dotnet test --no-restore
     - name: Publish
-      run: dotnet nuget push "./BoolExpressions/bin/Release/BoolExpressions.1.0.1.nupkg" --api-key {{NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      env:
+        NUGET_API_KEY: ${{ secrets.SuperSecret }}
+      run: dotnet nuget push "./BoolExpressions/bin/Release/BoolExpressions.1.0.1.nupkg" --api-key $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
