@@ -32,7 +32,7 @@ namespace BoolExpressions
 
                     elementList.Add(
                         item: keyValue.Value ?
-                            (IDnfBlockElement<T>)keyValue.Key :
+                            (IDnfBlockElement<T>)dnfVar :
                             new DfnNot<T>(variable: dnfVar));
                 }
 
