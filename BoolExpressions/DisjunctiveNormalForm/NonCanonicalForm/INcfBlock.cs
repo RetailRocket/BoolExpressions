@@ -1,7 +1,5 @@
-namespace ConditionTree.BoolExpression.NonCanonicalForm
+namespace BoolExpressions.DisjunctiveNormalForm.NonCanonicalForm
 {
-    using System.Collections.Generic;
-
     public interface INcfBlock<T>
         : INcfExpression<T>
     {

@@ -1,4 +1,4 @@
-namespace ConditionTree.BoolExpression.DisjunctiveNormalForm.DnfAndBlockElement
+namespace BoolExpressions.DisjunctiveNormalForm.DnfAndBlockElement
 {
     public class DnfVariable<T>
         : IDnfBlockElement<T>

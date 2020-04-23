@@ -1,4 +1,4 @@
-namespace ConditionTree.BoolExpression.DisjunctiveNormalForm
+namespace BoolExpressions.DisjunctiveNormalForm
 {
     using System.Collections.Generic;
 

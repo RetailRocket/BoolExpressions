@@ -1,7 +1,7 @@
-namespace ConditionTree.BoolExpression.DisjunctiveNormalForm
+namespace BoolExpressions.DisjunctiveNormalForm
 {
     using System.Collections.Generic;
-    using ConditionTree.BoolExpression.DisjunctiveNormalForm.DnfAndBlockElement;
+    using BoolExpressions.DisjunctiveNormalForm.DnfAndBlockElement;
 
     public class DfnAndBlock<T>
     {

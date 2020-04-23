@@ -1,7 +1,5 @@
-namespace ConditionTree.BoolExpression.NonCanonicalForm
+namespace BoolExpressions.DisjunctiveNormalForm.NonCanonicalForm
 {
-    using System.Net.Sockets;
-
     public class NonCanonicalBoolExpressionBuilder<T>
     {
         public NcfAndBlock<T> And(

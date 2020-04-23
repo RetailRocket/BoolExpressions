@@ -1,4 +1,4 @@
-namespace ConditionTree.BoolExpression.NonCanonicalForm
+namespace BoolExpressions.DisjunctiveNormalForm.NonCanonicalForm
 {
     using System;
     using System.Collections.Generic;

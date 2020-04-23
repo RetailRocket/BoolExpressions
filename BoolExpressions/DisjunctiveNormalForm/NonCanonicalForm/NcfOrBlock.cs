@@ -1,4 +1,4 @@
-namespace ConditionTree.BoolExpression.NonCanonicalForm
+namespace BoolExpressions.DisjunctiveNormalForm.NonCanonicalForm
 {
     public class NcfOrBlock<T>
         : INcfBlock<T>

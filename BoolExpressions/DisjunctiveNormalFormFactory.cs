@@ -2,9 +2,9 @@ namespace BoolExpressions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using BoolExpressions.DisjunctiveNormalForm;
+    using BoolExpressions.DisjunctiveNormalForm.DnfAndBlockElement;
     using BoolExpressions.NonCanonicalForm;
-    using ConditionTree.BoolExpression.DisjunctiveNormalForm;
-    using ConditionTree.BoolExpression.DisjunctiveNormalForm.DnfAndBlockElement;
 
     public static class DisjunctiveNormalFormFactory
     {

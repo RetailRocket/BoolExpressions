@@ -1,4 +1,4 @@
-namespace ConditionTree.BoolExpression.NonCanonicalForm
+namespace BoolExpressions.DisjunctiveNormalForm.NonCanonicalForm
 {
     public class NcfNot<TCondition>
         : INcfExpression<TCondition>
