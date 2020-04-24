@@ -8,7 +8,6 @@
         <Company>Retail Rocket</Company>
         <RepositoryUrl>https://github.com/RetailRocket/BoolExpressions</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <license type="expression">Apache-2.0</license>
         <Title>
             Bool Expression Library Project
         </Title>
