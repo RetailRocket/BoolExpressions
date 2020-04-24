@@ -3,24 +3,25 @@
         <LangVersion>8</LangVersion>
         <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.5</PackageVersion>
+        <PackageVersion>1.0.6</PackageVersion>
         <Authors>Artem Noskov, Andrey Chizh</Authors>
         <Company>Retail Rocket</Company>
-        <Description>
-            # Bool Expression Libarary Project
-
+        <RepositoryUrl>https://github.com/RetailRocket/BoolExpressions</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <license type="expression">Apache-2.0</license>
+        <Title>
+            Bool Expression Library Project
+        </Title>
+        <PackageDescription>
             Library for creating and manipulation bool expressions. It allow to create free form bool expression and gives function to convert it to full disjunctive normal form. We have a plan to give functionality for simplification full disjunctive normal form for disjunctive normal form.
-        </Description>
+        </PackageDescription>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     </PropertyGroup>
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
     
-    <PropertyGroup>
-        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    </PropertyGroup>
-
     <ItemGroup>
         <None Include="licenses\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
     </ItemGroup>
