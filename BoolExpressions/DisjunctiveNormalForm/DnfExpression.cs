@@ -5,11 +5,11 @@ namespace BoolExpressions.DisjunctiveNormalForm
     public class DnfExpression<T>
     {
         public DnfExpression(
-            IReadOnlyCollection<DfnAndBlock<T>> andBlockList)
+            IReadOnlyCollection<DfnAnd<T>> andBlockList)
         {
             this.AndBlockList = andBlockList;
         }
 
-        public IReadOnlyCollection<DfnAndBlock<T>> AndBlockList { get; }
+        public IReadOnlyCollection<DfnAnd<T>> AndBlockList { get; }
     }
 }

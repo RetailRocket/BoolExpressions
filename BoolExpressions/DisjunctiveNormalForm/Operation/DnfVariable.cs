@@ -1,7 +1,7 @@
-namespace BoolExpressions.DisjunctiveNormalForm.DnfAndBlockElement
+namespace BoolExpressions.DisjunctiveNormalForm.Operation
 {
     public class DnfVariable<T>
-        : IDnfBlockElement<T>
+        : IDnfOperation<T>
     {
         public DnfVariable(
             T value)

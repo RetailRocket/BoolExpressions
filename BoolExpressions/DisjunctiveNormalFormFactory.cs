@@ -3,7 +3,7 @@ namespace BoolExpressions
     using System.Collections.Generic;
     using System.Linq;
     using BoolExpressions.DisjunctiveNormalForm;
-    using BoolExpressions.DisjunctiveNormalForm.DnfAndBlockElement;
+    using BoolExpressions.DisjunctiveNormalForm.Operation;
     using BoolExpressions.NonCanonicalForm;
 
     public static class DisjunctiveNormalFormFactory
@@ -19,11 +19,11 @@ namespace BoolExpressions
                     ncfExpression,
                     line));
 
-            var dnfExpression = new List<DfnAndBlock<T>>();
+            var dnfExpression = new List<DfnAnd<T>>();
 
             foreach (var trueCombination in trueCombinationList)
             {
-                var elementList = new List<IDnfBlockElement<T>>();
+                var elementList = new List<IDnfOperation<T>>();
 
                 foreach (var keyValue in trueCombination)
                 {
@@ -32,11 +32,11 @@ namespace BoolExpressions
 
                     elementList.Add(
                         item: keyValue.Value ?
-                            (IDnfBlockElement<T>)dnfVar :
-                            new DfnNot<T>(variable: dnfVar));
+                            (IDnfOperation<T>)dnfVar :
+                            new DnfNot<T>(variable: dnfVar));
                 }
 
-                dnfExpression.Add(new DfnAndBlock<T>(
+                dnfExpression.Add(new DfnAnd<T>(
                     elementList: elementList));
             }
 
