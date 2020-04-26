@@ -23,7 +23,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.Term
         public bool Equals(
             Term<T> obj)
         {
-            return obj != null && obj.Variable == this.Variable;
+            return obj != null && obj.GetType() == this.GetType() && obj.Variable == this.Variable;
         }
 
         public override int GetHashCode()

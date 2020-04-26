@@ -25,7 +25,7 @@ namespace UnitTests.QuineMcCluskeyMethod
 
             Assert.Equal(
               expected: 1,
-              actual: ImplicantHelpers.getCombinedVariableDistance(a, b));
+              actual: ImplicantHelpers.GetCombinedVariableDistance(a, b));
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace UnitTests.QuineMcCluskeyMethod
                 NegativeTermOf("D")
             });
 
-            var actual = ImplicantHelpers.combineImplicants(a, b);
+            var actual = ImplicantHelpers.CombineImplicants(a, b);
 
             var expected = new Implicant<string>(new HashSet<Term<string>> {
                 CombinedTermOf("A"),
@@ -53,6 +53,79 @@ namespace UnitTests.QuineMcCluskeyMethod
                 NegativeTermOf("C"),
                 NegativeTermOf("D")
             });
+
+            Assert.Equal(
+                expected: expected,
+                actual: actual);
+        }
+
+        [Fact]
+        public void CombineImplicantLists()
+        {
+            var aList = new List<Implicant<string>> {
+                new Implicant<string>(new HashSet<Term<string>> {
+                    NegativeTermOf("A"),
+                    PositiveTermOf("B"),
+                    NegativeTermOf("C"),
+                    NegativeTermOf("D")
+                }),
+                new Implicant<string>(new HashSet<Term<string>> {
+                    PositiveTermOf("A"),
+                    NegativeTermOf("B"),
+                    NegativeTermOf("C"),
+                    NegativeTermOf("D")
+                })
+            };
+            
+            var bList = new List<Implicant<string>> {
+                new Implicant<string>(new HashSet<Term<string>> {
+                    PositiveTermOf("A"),
+                    NegativeTermOf("B"),
+                    NegativeTermOf("C"),
+                    PositiveTermOf("D")
+                }),
+                new Implicant<string>(new HashSet<Term<string>> {
+                    PositiveTermOf("A"),
+                    NegativeTermOf("B"),
+                    PositiveTermOf("C"),
+                    NegativeTermOf("D")
+                }),
+                new Implicant<string>(new HashSet<Term<string>> {
+                    PositiveTermOf("A"),
+                    PositiveTermOf("B"),
+                    NegativeTermOf("C"),
+                    NegativeTermOf("D")
+                }),
+            };
+
+            var actual = ImplicantHelpers.CombineImplicantLists(aList, bList);
+
+            var expected = new List<Implicant<string>> {
+                new Implicant<string>(new HashSet<Term<string>> {
+                    CombinedTermOf("A"),
+                    PositiveTermOf("B"),
+                    NegativeTermOf("C"),
+                    NegativeTermOf("D")
+                }),
+                new Implicant<string>(new HashSet<Term<string>> {
+                    PositiveTermOf("A"),
+                    NegativeTermOf("B"),
+                    NegativeTermOf("C"),
+                    CombinedTermOf("D")
+                }),
+                new Implicant<string>(new HashSet<Term<string>> {
+                    PositiveTermOf("A"),
+                    NegativeTermOf("B"),
+                    CombinedTermOf("C"),
+                    NegativeTermOf("D")
+                }),
+                new Implicant<string>(new HashSet<Term<string>> {
+                    PositiveTermOf("A"),
+                    CombinedTermOf("B"),
+                    NegativeTermOf("C"),
+                    NegativeTermOf("D")
+                })
+            };
 
             Assert.Equal(
                 expected: expected,

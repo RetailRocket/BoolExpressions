@@ -8,7 +8,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
 {
     public class ImplicantHelpers
     {
-        public static int getCombinedVariableDistance<T>(
+        public static int GetCombinedVariableDistance<T>(
             Implicant<T> a,
             Implicant<T> b) where T : class
         {
@@ -16,7 +16,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             {
                 return implicant
                     .Minterm
-                    .Where((term) =>
+                    .Where(term =>
                     {
                         return term switch
                         {
@@ -39,14 +39,14 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             return difference.Count();
         }
 
-        public static Implicant<T> combineImplicants<T>(
+        public static Implicant<T> CombineImplicants<T>(
             Implicant<T> implicantA,
             Implicant<T> implicantB) where T : class
         {
             var variableTermMapB = implicantB.Minterm.ToDictionary(term => term.Variable, term => term);
             var combinedMinterm = implicantA
               .Minterm
-              .Select((termA) =>
+              .Select(termA =>
               {
                   var variable = termA.Variable;
                   var termB = variableTermMapB[variable];
@@ -59,6 +59,28 @@ namespace BoolExpressions.QuineMcCluskeyMethod
               })
               .ToHashSet();
             return new Implicant<T>(combinedMinterm);
+        }
+
+        public static List<Implicant<T>> CombineImplicantLists<T>(
+            List<Implicant<T>> implicantListA,
+            List<Implicant<T>> implicantListB) where T : class
+        {
+            var nextLevelImplicants = new List<Implicant<T>>();
+
+            foreach (var implicantA in implicantListA)
+            {
+                foreach (var implicantB in implicantListB)
+                {
+                    var implicantsDistance = ImplicantHelpers.GetCombinedVariableDistance(implicantA, implicantB);
+                    if (implicantsDistance != 0) continue;
+                    var nextLevelImplicant = CombineImplicants(implicantA, implicantB);
+                    var nextLevelImplicantDistance = ImplicantHelpers.GetCombinedVariableDistance(implicantA, nextLevelImplicant);
+                    if (nextLevelImplicantDistance != 1) continue;
+                    nextLevelImplicants.Add(nextLevelImplicant);
+                }
+            }
+
+            return nextLevelImplicants;
         }
     }
 }
