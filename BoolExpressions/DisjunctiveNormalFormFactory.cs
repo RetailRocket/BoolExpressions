@@ -19,7 +19,7 @@ namespace BoolExpressions
                     ncfExpression,
                     line));
 
-            var dnfExpression = new List<DfnAnd<T>>();
+            var dnfExpression = new List<DnfAnd<T>>();
 
             foreach (var trueCombination in trueCombinationList)
             {
@@ -36,7 +36,7 @@ namespace BoolExpressions
                             new DnfNot<T>(variable: dnfVar));
                 }
 
-                dnfExpression.Add(new DfnAnd<T>(
+                dnfExpression.Add(new DnfAnd<T>(
                     elementList: elementList));
             }
 

@@ -3,9 +3,9 @@ namespace BoolExpressions.DisjunctiveNormalForm
     using System.Collections.Generic;
     using BoolExpressions.DisjunctiveNormalForm.Operation;
 
-    public class DfnAnd<T>
+    public class DnfAnd<T>
     {
-        public DfnAnd(
+        public DnfAnd(
             IReadOnlyCollection<IDnfOperation<T>> elementList)
         {
             this.ElementList = elementList;
