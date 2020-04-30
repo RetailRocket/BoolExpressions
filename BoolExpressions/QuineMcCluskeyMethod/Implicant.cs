@@ -22,14 +22,14 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         }
 
         public bool Equals(
-            Implicant<T> obj)
+            Implicant<T> that)
         {
-            return obj != null && obj.Minterm.SetEquals(this.Minterm);
+            return that != null && HashSet<Term<T>>.CreateSetComparer().Equals(this.Minterm, that.Minterm);
         }
 
         public override int GetHashCode()
         {
-            return Minterm.GetHashCode();
+            return HashSet<Term<T>>.CreateSetComparer().GetHashCode(Minterm);
         }
     }
 }

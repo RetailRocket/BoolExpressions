@@ -15,20 +15,20 @@ namespace BoolExpressions.QuineMcCluskeyMethod.Term
         public T Variable { get; }
 
         public override bool Equals(
-            object obj)
+            object that)
         {
-            return Equals(obj as Term<T>);
+            return Equals(that as Term<T>);
         }
 
         public bool Equals(
-            Term<T> obj)
+            Term<T> that)
         {
-            return obj != null && obj.GetType() == this.GetType() && obj.Variable == this.Variable;
+            return that != null && that.GetType() == this.GetType() && that.Variable == this.Variable;
         }
 
         public override int GetHashCode()
         {
-            return Variable.GetHashCode();
+            return HashCode.Combine(GetType().GetHashCode(), Variable.GetHashCode());
         }
     }
 }

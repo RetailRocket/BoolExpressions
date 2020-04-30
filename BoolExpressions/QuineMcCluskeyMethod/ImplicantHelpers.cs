@@ -9,8 +9,8 @@ namespace BoolExpressions.QuineMcCluskeyMethod
     public class ImplicantHelpers
     {
         public static int GetCombinedVariableDistance<T>(
-            Implicant<T> a,
-            Implicant<T> b) where T : class
+            Implicant<T> implicantA,
+            Implicant<T> implicantB) where T : class
         {
             Func<Implicant<T>, HashSet<T>> getCombinedVariables = (Implicant<T> implicant) =>
             {
@@ -28,8 +28,8 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                     .ToHashSet();
             };
 
-            var combinedVariablesA = getCombinedVariables(a);
-            var combinedVariablesB = getCombinedVariables(b);
+            var combinedVariablesA = getCombinedVariables(implicantA);
+            var combinedVariablesB = getCombinedVariables(implicantB);
 
             var difference = combinedVariablesA
                 .Union(combinedVariablesB)
@@ -37,6 +37,22 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                     .Intersect(combinedVariablesB));
 
             return difference.Count();
+        }
+
+        public static int GetImplicantWeight<T>(
+            Implicant<T> implicant) where T : class
+        {
+            return implicant
+                .Minterm
+                .Where(term =>
+                {
+                    return term switch
+                    {
+                        PositiveTerm<T> _ => true,
+                        _ => false
+                    };
+                })
+                .Count();
         }
 
         public static Implicant<T> CombineImplicants<T>(
@@ -61,26 +77,71 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             return new Implicant<T>(combinedMinterm);
         }
 
-        public static List<Implicant<T>> CombineImplicantLists<T>(
-            List<Implicant<T>> implicantListA,
-            List<Implicant<T>> implicantListB) where T : class
+        public static void ProcessCurrentLevelImplicantSet<T>(
+            in HashSet<Implicant<T>> currentWightImplicantSet,
+            in HashSet<Implicant<T>> nextWeightImplicantSet,
+            out HashSet<Implicant<T>> currentLevelProcessedImplicantSet,
+            out HashSet<Implicant<T>> nextLevelImplicantSet) where T : class
         {
-            var nextLevelImplicants = new List<Implicant<T>>();
+            currentLevelProcessedImplicantSet = new HashSet<Implicant<T>>();
+            nextLevelImplicantSet = new HashSet<Implicant<T>>();
 
-            foreach (var implicantA in implicantListA)
+            foreach (var currentWightImplicant in currentWightImplicantSet)
             {
-                foreach (var implicantB in implicantListB)
+                foreach (var nextWeightImplicant in nextWeightImplicantSet)
                 {
-                    var implicantsDistance = ImplicantHelpers.GetCombinedVariableDistance(implicantA, implicantB);
+                    var implicantsDistance = ImplicantHelpers.GetCombinedVariableDistance(currentWightImplicant, nextWeightImplicant);
                     if (implicantsDistance != 0) continue;
-                    var nextLevelImplicant = CombineImplicants(implicantA, implicantB);
-                    var nextLevelImplicantDistance = ImplicantHelpers.GetCombinedVariableDistance(implicantA, nextLevelImplicant);
-                    if (nextLevelImplicantDistance != 1) continue;
-                    nextLevelImplicants.Add(nextLevelImplicant);
+                    var nextLevelImplicantCandidate = CombineImplicants(currentWightImplicant, nextWeightImplicant);
+                    var nextLevelImplicantCandidateDistance = ImplicantHelpers.GetCombinedVariableDistance(currentWightImplicant, nextLevelImplicantCandidate);
+                    if (nextLevelImplicantCandidateDistance != 1) continue;
+
+                    nextLevelImplicantSet.Add(nextLevelImplicantCandidate);
+                    currentLevelProcessedImplicantSet.Add(currentWightImplicant);
+                    currentLevelProcessedImplicantSet.Add(nextWeightImplicant);
                 }
             }
+        }
 
-            return nextLevelImplicants;
+        public static HashSet<Implicant<T>> GetFinalImplicantSet<T>(
+            in HashSet<Implicant<T>> implicantSet) where T : class
+        {
+            var finalImplicantSet = new HashSet<Implicant<T>>();
+            var currentLevelImplicantSet = implicantSet;
+
+            while(currentLevelImplicantSet.Count() > 0) {
+                var implicantWeightImplicantMap = currentLevelImplicantSet
+                    .GroupBy(implicant => GetImplicantWeight(implicant))
+                    .ToDictionary(group => group.Key, group => group.ToHashSet());
+
+                var processedImplicantSet = new HashSet<Implicant<T>>();                
+                var nextLevelImplicantSet = new HashSet<Implicant<T>>();
+
+                var weights = implicantWeightImplicantMap
+                    .Keys
+                    .OrderBy(weight => weight)
+                    .ToList();
+
+                foreach(var (currentWeight, nextWeight) in weights.Zip(weights.Skip(1), Tuple.Create))
+                {
+                    var currentLevelProcessedImplicantSet = new HashSet<Implicant<T>>();
+                    HashSet<Implicant<T>> currentWeightAndNextLevelImplicantSet;
+
+                    ProcessCurrentLevelImplicantSet(
+                        currentWightImplicantSet: implicantWeightImplicantMap[currentWeight],
+                        nextWeightImplicantSet: implicantWeightImplicantMap[nextWeight],
+                        currentLevelProcessedImplicantSet: out currentLevelProcessedImplicantSet,
+                        nextLevelImplicantSet: out currentWeightAndNextLevelImplicantSet);
+
+                    processedImplicantSet.UnionWith(currentLevelProcessedImplicantSet);
+                    nextLevelImplicantSet.UnionWith(currentWeightAndNextLevelImplicantSet);
+                }
+
+                finalImplicantSet.UnionWith(currentLevelImplicantSet.Except(processedImplicantSet));
+                currentLevelImplicantSet = nextLevelImplicantSet;
+            }
+
+            return finalImplicantSet;
         }
     }
 }
