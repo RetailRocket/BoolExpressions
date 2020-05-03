@@ -10,10 +10,10 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         public Implicant(
             HashSet<Term<T>> minterm)
         {
-            Minterm = minterm;
+            TermSet = minterm;
         }
 
-        public HashSet<Term<T>> Minterm { get; }
+        public HashSet<Term<T>> TermSet { get; }
 
         public override bool Equals(
             object obj)
@@ -24,12 +24,18 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         public bool Equals(
             Implicant<T> that)
         {
-            return that != null && HashSet<Term<T>>.CreateSetComparer().Equals(this.Minterm, that.Minterm);
+            return that != null && HashSet<Term<T>>.CreateSetComparer().Equals(this.TermSet, that.TermSet);
         }
 
         public override int GetHashCode()
         {
-            return HashSet<Term<T>>.CreateSetComparer().GetHashCode(Minterm);
+            return HashSet<Term<T>>.CreateSetComparer().GetHashCode(TermSet);
+        }
+
+        override public string ToString()
+        {
+            var mintermString = String.Join(", ", TermSet.Select(term => term.ToString()));
+            return $"Implicant({mintermString})";
         }
     }
 }

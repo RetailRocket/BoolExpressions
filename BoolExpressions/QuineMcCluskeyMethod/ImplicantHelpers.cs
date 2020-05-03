@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BoolExpressions.DisjunctiveNormalForm;
+using BoolExpressions.DisjunctiveNormalForm.Operation;
 using BoolExpressions.QuineMcCluskeyMethod.Term;
 using static BoolExpressions.QuineMcCluskeyMethod.Term.Factories;
 
@@ -15,7 +17,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             Func<Implicant<T>, HashSet<T>> getCombinedVariables = (Implicant<T> implicant) =>
             {
                 return implicant
-                    .Minterm
+                    .TermSet
                     .Where(term =>
                     {
                         return term switch
@@ -43,7 +45,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             Implicant<T> implicant) where T : class
         {
             return implicant
-                .Minterm
+                .TermSet
                 .Where(term =>
                 {
                     return term switch
@@ -59,9 +61,9 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             Implicant<T> implicantA,
             Implicant<T> implicantB) where T : class
         {
-            var variableTermMapB = implicantB.Minterm.ToDictionary(term => term.Variable, term => term);
+            var variableTermMapB = implicantB.TermSet.ToDictionary(term => term.Variable, term => term);
             var combinedMinterm = implicantA
-              .Minterm
+              .TermSet
               .Select(termA =>
               {
                   var variable = termA.Variable;
@@ -142,6 +144,65 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             }
 
             return finalImplicantSet;
+        }
+
+        public static bool IsImplicantContains<T>(
+            Implicant<T> implicant,
+            DnfAnd<T> minterm) where T : class 
+        {
+            var variableMintermMapB = minterm.ElementSet.ToDictionary(term =>
+                term switch
+                {
+                    DnfVariable<T> operation => operation.Value,
+                    DnfNot<T> operation => operation.Variable.Value,
+                    _ => throw new ArgumentException(
+                        message: "pattern matching in C# is sucks",
+                        paramName: nameof(term))
+                },
+                term => term);
+
+            return implicant
+                .TermSet
+                .Where(implicantTerm =>
+                {
+                    var mintermTerm = variableMintermMapB[implicantTerm.Variable];
+                    return (implicantTerm, mintermTerm) switch
+                    {
+                        (PositiveTerm<T> _, DnfNot<T> _) => true,
+                        (NegativeTerm<T> _, DnfVariable<T> _) => true,
+                        _ => false
+                    };
+                })
+                .Count() == 0;
+        }
+
+        public static void GetPrimaryImplicantSet<T>(
+            in HashSet<DnfAnd<T>> mintermSet,
+            in HashSet<Implicant<T>> finalImplicantSet,
+            out HashSet<DnfAnd<T>> finalMintermSet,
+            out HashSet<Implicant<T>> primaryImplicantSet) where T : class
+        {
+            var processedMintermSet = new HashSet<DnfAnd<T>>();
+            primaryImplicantSet = new HashSet<Implicant<T>>();
+
+            foreach(var minterm in mintermSet)
+            {
+                var candidateImplicantSet = finalImplicantSet
+                    .Where(implicant =>
+                    {
+                        return IsImplicantContains(
+                            implicant: implicant,
+                            minterm: minterm);
+                    });
+
+                if(candidateImplicantSet.Count() == 1)
+                {
+                    processedMintermSet.Add(minterm);
+                    primaryImplicantSet.Add(candidateImplicantSet.First());
+                }
+            }
+
+            finalMintermSet = mintermSet.Except(processedMintermSet).ToHashSet();
         }
     }
 }

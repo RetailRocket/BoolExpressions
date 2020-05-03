@@ -11,5 +11,10 @@ namespace BoolExpressions.QuineMcCluskeyMethod.Term
             T variable) : base(variable)
         {
         }
+
+        override public string ToString()
+        {
+            return $"Combined({Variable})";
+        }
     }
 }

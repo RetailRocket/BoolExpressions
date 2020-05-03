@@ -2,7 +2,7 @@ namespace BoolExpressions.DisjunctiveNormalForm
 {
     using System.Collections.Generic;
 
-    public class DnfExpression<T>
+    public class DnfExpression<T> where T : class
     {
         public DnfExpression(
             IReadOnlyCollection<DnfAnd<T>> andBlockList)
