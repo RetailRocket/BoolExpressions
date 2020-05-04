@@ -8,9 +8,9 @@ namespace BoolExpressions.QuineMcCluskeyMethod
     public class Implicant<T> where T : class
     {
         public Implicant(
-            HashSet<Term<T>> minterm)
+            HashSet<Term<T>> termSet)
         {
-            TermSet = minterm;
+            TermSet = termSet;
         }
 
         public HashSet<Term<T>> TermSet { get; }

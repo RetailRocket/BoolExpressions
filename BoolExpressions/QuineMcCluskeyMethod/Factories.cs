@@ -7,9 +7,15 @@ namespace BoolExpressions.QuineMcCluskeyMethod
 {
     public class Factories {
         public static Implicant<T> ImplicantOf<T>(
-            params Term<T>[] minterm) where T : class
+            params Term<T>[] termSet) where T : class
         {
-            return new Implicant<T>(new HashSet<Term<T>>(minterm));
+            return new Implicant<T>(new HashSet<Term<T>>(termSet));
+        }
+
+        public static Implicant<T> ImplicantOf<T>(
+            IEnumerable<Term<T>> termSet) where T : class
+        {
+            return new Implicant<T>(new HashSet<Term<T>>(termSet));
         }
     }
 }

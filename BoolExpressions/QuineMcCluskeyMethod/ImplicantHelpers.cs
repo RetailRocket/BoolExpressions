@@ -4,7 +4,10 @@ using System.Linq;
 using BoolExpressions.DisjunctiveNormalForm;
 using BoolExpressions.DisjunctiveNormalForm.Operation;
 using BoolExpressions.QuineMcCluskeyMethod.Term;
+using static BoolExpressions.QuineMcCluskeyMethod.Factories;
 using static BoolExpressions.QuineMcCluskeyMethod.Term.Factories;
+using static BoolExpressions.DisjunctiveNormalForm.Factories;
+using static BoolExpressions.DisjunctiveNormalForm.Operation.Factories;
 
 namespace BoolExpressions.QuineMcCluskeyMethod
 {
@@ -41,7 +44,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             return difference.Count();
         }
 
-        public static int GetImplicantWeight<T>(
+        public static int GetImplicantPositiveWeight<T>(
             Implicant<T> implicant) where T : class
         {
             return implicant
@@ -80,8 +83,8 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         }
 
         public static void ProcessCurrentLevelImplicantSet<T>(
-            in HashSet<Implicant<T>> currentWightImplicantSet,
-            in HashSet<Implicant<T>> nextWeightImplicantSet,
+            HashSet<Implicant<T>> currentWightImplicantSet,
+            HashSet<Implicant<T>> nextWeightImplicantSet,
             out HashSet<Implicant<T>> currentLevelProcessedImplicantSet,
             out HashSet<Implicant<T>> nextLevelImplicantSet) where T : class
         {
@@ -106,14 +109,14 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         }
 
         public static HashSet<Implicant<T>> GetFinalImplicantSet<T>(
-            in HashSet<Implicant<T>> implicantSet) where T : class
+            HashSet<Implicant<T>> implicantSet) where T : class
         {
             var finalImplicantSet = new HashSet<Implicant<T>>();
             var currentLevelImplicantSet = implicantSet;
 
             while(currentLevelImplicantSet.Count() > 0) {
                 var implicantWeightImplicantMap = currentLevelImplicantSet
-                    .GroupBy(implicant => GetImplicantWeight(implicant))
+                    .GroupBy(implicant => GetImplicantPositiveWeight(implicant))
                     .ToDictionary(group => group.Key, group => group.ToHashSet());
 
                 var processedImplicantSet = new HashSet<Implicant<T>>();                
@@ -177,8 +180,8 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         }
 
         public static void GetPrimaryImplicantSet<T>(
-            in HashSet<DnfAnd<T>> mintermSet,
-            in HashSet<Implicant<T>> finalImplicantSet,
+            HashSet<DnfAnd<T>> mintermSet,
+            HashSet<Implicant<T>> finalImplicantSet,
             out HashSet<DnfAnd<T>> finalMintermSet,
             out HashSet<Implicant<T>> primaryImplicantSet) where T : class
         {
@@ -203,6 +206,149 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             }
 
             finalMintermSet = mintermSet.Except(processedMintermSet).ToHashSet();
+        }
+
+        public static HashSet<HashSet<Implicant<T>>> TruncateImplicantSetOfSet<T>(
+            HashSet<HashSet<Implicant<T>>> implicantSetOfSet) where T : class
+        {
+            var truncatedImplicantSetOfSet = new HashSet<HashSet<Implicant<T>>>();
+
+            foreach(var implicantLongSet in implicantSetOfSet) {
+                if(!implicantSetOfSet
+                    .Any(implicantShortSet =>
+                        implicantLongSet != implicantShortSet &&
+                        implicantShortSet.IsSubsetOf(implicantLongSet)))
+                {
+                    truncatedImplicantSetOfSet.Add(implicantLongSet);
+                }
+            }
+
+            return truncatedImplicantSetOfSet;
+        }
+
+        public static int GetImplicantUncombinedWeight<T>(
+            Implicant<T> implicant) where T : class
+        {
+            return implicant
+                .TermSet
+                .Where(term =>
+                {
+                    return term switch
+                    {
+                        PositiveTerm<T> _ => true,
+                        NegativeTerm<T> _ => true,
+                        _ => false
+                    };
+                })
+                .Count();
+        }
+
+        public static HashSet<Implicant<T>> PetrickMethod<T>(
+            HashSet<DnfAnd<T>> mintermSet,
+            HashSet<Implicant<T>> implicantSet) where T : class
+        {
+            var sufficientImplicantSetOfSet = new HashSet<HashSet<Implicant<T>>>(HashSet<Implicant<T>>.CreateSetComparer());
+
+            foreach(var minterm in mintermSet) {
+                var sufficientImplicantSet = new HashSet<Implicant<T>>();
+
+                foreach(var implicant in implicantSet) {
+                    if(IsImplicantContains(
+                        implicant: implicant,
+                        minterm: minterm))
+                    {
+                        sufficientImplicantSet.Add(implicant);
+                    }
+                }
+
+                if(sufficientImplicantSet.Count() > 0)
+                {
+                    sufficientImplicantSetOfSet.Add(sufficientImplicantSet);
+                }
+            }
+
+            var truncatedImplicantSetOfSet = TruncateImplicantSetOfSet(sufficientImplicantSetOfSet);
+            
+            var minimalImplicantSet = sufficientImplicantSetOfSet
+                .OrderBy(implicantSet =>
+                {
+                    var weight = implicantSet
+                        .Select(implicant => GetImplicantUncombinedWeight(implicant))
+                        .Sum();
+                    return Tuple.Create(weight, implicantSet.GetHashCode());
+                })
+                .DefaultIfEmpty(new HashSet<Implicant<T>>())
+                .First();
+
+            return minimalImplicantSet;
+        }
+
+        public static Implicant<T> MintermToImplicant<T>(
+            HashSet<IDnfOperation<T>> minterm) where T : class
+        {
+            return ImplicantOf(
+                minterm
+                    .Select(operation =>
+                    {
+                        Term<T> term = operation switch
+                        {
+                            DnfVariable<T> variable => PositiveTermOf(variable.Value),
+                            DnfNot<T> notOperation => NegativeTermOf(notOperation.Variable.Value),
+                            _ => throw new ArgumentException(
+                                message: "pattern matching in C# is sucks",
+                                paramName: nameof(operation))
+                        };
+                        return term;
+                    }));
+        }
+
+        public static HashSet<IDnfOperation<T>> ImplicantToMinset<T>(
+             Implicant<T> implicant) where T : class
+        {
+            return implicant.TermSet
+                .SelectMany(term =>
+                {
+                    return term switch
+                    {
+                        PositiveTerm<T> _ => new List<IDnfOperation<T>> { DnfVariableOf(term.Variable) },
+                        NegativeTerm<T> _ => new List<IDnfOperation<T>> { DnfNotOf(DnfVariableOf(term.Variable)) },
+                        _ => new List<IDnfOperation<T>>()
+                    };
+                })
+                .ToHashSet();
+        }
+        public static DnfExpression<T> ProcessDnf<T>(
+            in DnfExpression<T> dnfExpression) where T : class
+        {
+            var mintermSet = dnfExpression.AndBlockSet.ToHashSet();
+
+            var implicantSet = mintermSet
+                .Select(andBlock => MintermToImplicant(
+                    andBlock.ElementSet))
+                .ToHashSet();
+
+            var finalImplicantSet = GetFinalImplicantSet(
+                implicantSet: implicantSet);
+
+            HashSet<DnfAnd<T>> finalMintermSet;
+            HashSet<Implicant<T>> primaryImplicantSet;
+
+            GetPrimaryImplicantSet(
+                mintermSet: mintermSet,
+                finalImplicantSet: finalImplicantSet,
+                finalMintermSet: out finalMintermSet,
+                primaryImplicantSet: out primaryImplicantSet);
+
+            var minimalImplicantSet = PetrickMethod(
+                mintermSet: finalMintermSet,
+                implicantSet: implicantSet.Except(primaryImplicantSet).ToHashSet());
+
+            var primaryAndMinimalMintermSet = primaryImplicantSet
+                .Union(minimalImplicantSet)
+                .Select(implicant => new DnfAnd<T>(ImplicantToMinset(implicant)))
+                .ToHashSet();
+
+            return new DnfExpression<T>(primaryAndMinimalMintermSet);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace BoolExpressions
                     ncfExpression,
                     line));
 
-            var dnfExpression = new List<DnfAnd<T>>();
+            var dnfExpression = new HashSet<DnfAnd<T>>();
 
             foreach (var trueCombination in trueCombinationList)
             {
@@ -41,7 +41,7 @@ namespace BoolExpressions
             }
 
             return new DnfExpression<T>(
-                andBlockList: dnfExpression);
+                andBlockSet: dnfExpression);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace UnitTests.QuineMcCluskeyMethod
 
             Assert.Equal(
               expected: 2,
-              actual: ImplicantHelpers.GetImplicantWeight(implicant));
+              actual: ImplicantHelpers.GetImplicantPositiveWeight(implicant));
         }
 
         [Fact]
@@ -165,7 +165,7 @@ namespace UnitTests.QuineMcCluskeyMethod
         [Fact]
         public void GetFinalImplicantList()
         {
-            var mintermSet = new HashSet<Implicant<string>> {
+            var implicantSet = new HashSet<Implicant<string>> {
                 ImplicantOf(
                     NegativeTermOf("A"),
                     PositiveTermOf("B"),
@@ -244,7 +244,7 @@ namespace UnitTests.QuineMcCluskeyMethod
             };
             
             var actualFinalImplicantSet = ImplicantHelpers.GetFinalImplicantSet(
-                implicantSet: mintermSet);
+                implicantSet: implicantSet);
             
             Assert.Equal(   
                 expected: finalImplicantSet,
@@ -439,6 +439,183 @@ namespace UnitTests.QuineMcCluskeyMethod
             Assert.Equal(
                 expected: expectedFinalMintermSet,
                 actual: actualFinalMintermSet);
+        }
+
+        [Fact]
+        public void PetrickMethod()
+        {
+            var implicantSet = new HashSet<Implicant<string>> {
+                ImplicantOf(
+                    PositiveTermOf("A"),
+                    NegativeTermOf("B"),
+                    CombinedTermOf("C"),
+                    CombinedTermOf("D")
+                ),
+                ImplicantOf(
+                    PositiveTermOf("A"),
+                    CombinedTermOf("B"),
+                    CombinedTermOf("C"),
+                    NegativeTermOf("D")
+                )
+            };
+
+            var mintermSet = new HashSet<DnfAnd<string>> {
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfVariableOf("C"),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfVariableOf("B"),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfVariableOf("C"),
+                    DnfVariableOf("D")
+                ),
+            };
+
+            var actualMinimalImplicantSet = ImplicantHelpers.PetrickMethod(
+                mintermSet: mintermSet,
+                implicantSet: implicantSet
+            );
+
+            var expectedMinimalImplicantSet = new HashSet<Implicant<string>> {
+                ImplicantOf(
+                    PositiveTermOf("A"),
+                    CombinedTermOf("B"),
+                    CombinedTermOf("C"),
+                    NegativeTermOf("D")
+                )
+            };
+
+            Assert.Equal(
+                expected: expectedMinimalImplicantSet,
+                actual: actualMinimalImplicantSet);
+        }
+
+        [Fact]
+        public void ProcessDnf()
+        {
+            var dnfExpression = new DnfExpression<string>(new HashSet<DnfAnd<string>> {
+                DnfAndOf(
+                    DnfNotOf(
+                        DnfVariableOf("A")),
+                    DnfVariableOf("B"),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfVariableOf("D")
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfVariableOf("C"),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfVariableOf("B"),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfVariableOf("C"),
+                    DnfVariableOf("D")
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfVariableOf("B"),
+                    DnfVariableOf("C"),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfVariableOf("B"),
+                    DnfVariableOf("C"),
+                    DnfVariableOf("D")
+                )
+            });
+
+            var actualProcessedDnfExpression = ImplicantHelpers.ProcessDnf(
+                dnfExpression: dnfExpression
+            );
+
+            var expectedProcessedDnfExpression = new DnfExpression<string>(new HashSet<DnfAnd<string>> {
+                DnfAndOf(
+                    DnfVariableOf("B"),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfVariableOf("C")
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                )
+            });
+
+            Assert.Equal(
+                expected: expectedProcessedDnfExpression,
+                actual: actualProcessedDnfExpression);
         }
     }
 }
