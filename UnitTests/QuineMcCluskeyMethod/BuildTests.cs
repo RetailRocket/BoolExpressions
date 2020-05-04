@@ -499,7 +499,16 @@ namespace UnitTests.QuineMcCluskeyMethod
                 implicantSet: implicantSet
             );
 
-            var expectedMinimalImplicantSet = new HashSet<Implicant<string>> {
+            var expectedMinimalImplicantSet1 = new HashSet<Implicant<string>> {
+                ImplicantOf(
+                    PositiveTermOf("A"),
+                    NegativeTermOf("B"),
+                    CombinedTermOf("C"),
+                    CombinedTermOf("D")
+                )
+            };
+
+            var expectedMinimalImplicantSet2 = new HashSet<Implicant<string>> {
                 ImplicantOf(
                     PositiveTermOf("A"),
                     CombinedTermOf("B"),
@@ -508,9 +517,11 @@ namespace UnitTests.QuineMcCluskeyMethod
                 )
             };
 
-            Assert.Equal(
-                expected: expectedMinimalImplicantSet,
-                actual: actualMinimalImplicantSet);
+            var comparer = HashSet<Implicant<string>>.CreateSetComparer();
+
+            Assert.True(
+                comparer.Equals(actualMinimalImplicantSet, expectedMinimalImplicantSet1) ||
+                comparer.Equals(actualMinimalImplicantSet, expectedMinimalImplicantSet2));
         }
 
         [Fact]
@@ -585,7 +596,33 @@ namespace UnitTests.QuineMcCluskeyMethod
                 dnfExpression: dnfExpression
             );
 
-            var expectedProcessedDnfExpression = new DnfExpression<string>(new HashSet<DnfAnd<string>> {
+            var expectedProcessedDnfExpression1 = new DnfExpression<string>(new HashSet<DnfAnd<string>> {
+                DnfAndOf(
+                    DnfVariableOf("B"),
+                    DnfNotOf(
+                        DnfVariableOf("C")),
+                    DnfNotOf(
+                        DnfVariableOf("D"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B"))
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfVariableOf("C")
+                ),
+                DnfAndOf(
+                    DnfVariableOf("A"),
+                    DnfNotOf(
+                        DnfVariableOf("B")),
+                    DnfVariableOf("C"),
+                    DnfVariableOf("D")
+                )
+            });
+
+            var expectedProcessedDnfExpression2 = new DnfExpression<string>(new HashSet<DnfAnd<string>> {
                 DnfAndOf(
                     DnfVariableOf("B"),
                     DnfNotOf(
@@ -613,9 +650,9 @@ namespace UnitTests.QuineMcCluskeyMethod
                 )
             });
 
-            Assert.Equal(
-                expected: expectedProcessedDnfExpression,
-                actual: actualProcessedDnfExpression);
+            Assert.True(
+                actualProcessedDnfExpression.Equals(expectedProcessedDnfExpression1) ||
+                actualProcessedDnfExpression.Equals(expectedProcessedDnfExpression2));
         }
     }
 }

@@ -275,7 +275,8 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                     var weight = implicantSet
                         .Select(implicant => GetImplicantUncombinedWeight(implicant))
                         .Sum();
-                    return Tuple.Create(weight, implicantSet.GetHashCode());
+
+                    return weight;
                 })
                 .DefaultIfEmpty(new HashSet<Implicant<T>>())
                 .First();
