@@ -13,11 +13,6 @@ namespace BoolExpressions.DisjunctiveNormalForm.Operation
 
         public DnfVariable<T> Variable { get; set; }
 
-        override public string ToString()
-        {
-            return $"Not({Variable})";
-        }
-
         override public bool Equals(
             object that)
         {

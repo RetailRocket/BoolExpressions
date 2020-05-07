@@ -31,11 +31,5 @@ namespace BoolExpressions.DisjunctiveNormalForm
         {
             return HashSet<IDnfOperation<T>>.CreateSetComparer().GetHashCode(ElementSet);
         }
-
-        override public string ToString()
-        {
-            var elementString = String.Join(", ", ElementSet.Select(term => term.ToString()));
-            return $"And({elementString})";
-        }
     }
 }

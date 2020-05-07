@@ -13,11 +13,6 @@ namespace BoolExpressions.DisjunctiveNormalForm.Operation
 
         public T Value { get; set; }
 
-        override public string ToString()
-        {
-            return $"{Value}";
-        }
-
         public override bool Equals(
             object that)
         {
