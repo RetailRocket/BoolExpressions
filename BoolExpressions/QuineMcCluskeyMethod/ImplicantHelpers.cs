@@ -8,148 +8,15 @@ using static BoolExpressions.QuineMcCluskeyMethod.Factories;
 using static BoolExpressions.QuineMcCluskeyMethod.Term.Factories;
 using static BoolExpressions.DisjunctiveNormalForm.Factories;
 using static BoolExpressions.DisjunctiveNormalForm.Operation.Factories;
+using System.Runtime.CompilerServices;
+
+[assembly:InternalsVisibleTo("UnitTests")]
 
 namespace BoolExpressions.QuineMcCluskeyMethod
 {
     public class ImplicantHelpers
     {
-        public static int GetCombinedVariableDistance<T>(
-            Implicant<T> implicantA,
-            Implicant<T> implicantB) where T : class
-        {
-            Func<Implicant<T>, HashSet<T>> getCombinedVariables = (Implicant<T> implicant) =>
-            {
-                return implicant
-                    .TermSet
-                    .Where(term =>
-                    {
-                        return term switch
-                        {
-                            CombinedTerm<T> _ => true,
-                            _ => false
-                        };
-                    })
-                    .Select(term => term.Variable)
-                    .ToHashSet();
-            };
-
-            var combinedVariablesA = getCombinedVariables(implicantA);
-            var combinedVariablesB = getCombinedVariables(implicantB);
-
-            var difference = combinedVariablesA
-                .Union(combinedVariablesB)
-                .Except(combinedVariablesA
-                    .Intersect(combinedVariablesB));
-
-            return difference.Count();
-        }
-
-        public static int GetImplicantPositiveWeight<T>(
-            Implicant<T> implicant) where T : class
-        {
-            return implicant
-                .TermSet
-                .Where(term =>
-                {
-                    return term switch
-                    {
-                        PositiveTerm<T> _ => true,
-                        _ => false
-                    };
-                })
-                .Count();
-        }
-
-        public static Implicant<T> CombineImplicants<T>(
-            Implicant<T> implicantA,
-            Implicant<T> implicantB) where T : class
-        {
-            var variableTermMapB = implicantB.TermSet.ToDictionary(term => term.Variable, term => term);
-            var combinedMinterm = implicantA
-              .TermSet
-              .Select(termA =>
-              {
-                  var variable = termA.Variable;
-                  var termB = variableTermMapB[variable];
-                  return (termA, termB) switch
-                  {
-                      (PositiveTerm<T> _, NegativeTerm<T> _) => new CombinedTerm<T>(variable),
-                      (NegativeTerm<T> _, PositiveTerm<T> _) => new CombinedTerm<T>(variable),
-                      _ => termA
-                  };
-              })
-              .ToHashSet();
-            return new Implicant<T>(combinedMinterm);
-        }
-
-        public static void ProcessCurrentLevelImplicantSet<T>(
-            HashSet<Implicant<T>> currentWightImplicantSet,
-            HashSet<Implicant<T>> nextWeightImplicantSet,
-            out HashSet<Implicant<T>> currentLevelProcessedImplicantSet,
-            out HashSet<Implicant<T>> nextLevelImplicantSet) where T : class
-        {
-            currentLevelProcessedImplicantSet = new HashSet<Implicant<T>>();
-            nextLevelImplicantSet = new HashSet<Implicant<T>>();
-
-            foreach (var currentWightImplicant in currentWightImplicantSet)
-            {
-                foreach (var nextWeightImplicant in nextWeightImplicantSet)
-                {
-                    var implicantsDistance = ImplicantHelpers.GetCombinedVariableDistance(currentWightImplicant, nextWeightImplicant);
-                    if (implicantsDistance != 0) continue;
-                    var nextLevelImplicantCandidate = CombineImplicants(currentWightImplicant, nextWeightImplicant);
-                    var nextLevelImplicantCandidateDistance = ImplicantHelpers.GetCombinedVariableDistance(currentWightImplicant, nextLevelImplicantCandidate);
-                    if (nextLevelImplicantCandidateDistance != 1) continue;
-
-                    nextLevelImplicantSet.Add(nextLevelImplicantCandidate);
-                    currentLevelProcessedImplicantSet.Add(currentWightImplicant);
-                    currentLevelProcessedImplicantSet.Add(nextWeightImplicant);
-                }
-            }
-        }
-
-        public static HashSet<Implicant<T>> GetFinalImplicantSet<T>(
-            HashSet<Implicant<T>> implicantSet) where T : class
-        {
-            var finalImplicantSet = new HashSet<Implicant<T>>();
-            var currentLevelImplicantSet = implicantSet;
-
-            while(currentLevelImplicantSet.Count() > 0) {
-                var implicantWeightImplicantMap = currentLevelImplicantSet
-                    .GroupBy(implicant => GetImplicantPositiveWeight(implicant))
-                    .ToDictionary(group => group.Key, group => group.ToHashSet());
-
-                var processedImplicantSet = new HashSet<Implicant<T>>();                
-                var nextLevelImplicantSet = new HashSet<Implicant<T>>();
-
-                var weights = implicantWeightImplicantMap
-                    .Keys
-                    .OrderBy(weight => weight)
-                    .ToList();
-
-                foreach(var (currentWeight, nextWeight) in weights.Zip(weights.Skip(1), Tuple.Create))
-                {
-                    var currentLevelProcessedImplicantSet = new HashSet<Implicant<T>>();
-                    HashSet<Implicant<T>> currentWeightAndNextLevelImplicantSet;
-
-                    ProcessCurrentLevelImplicantSet(
-                        currentWightImplicantSet: implicantWeightImplicantMap[currentWeight],
-                        nextWeightImplicantSet: implicantWeightImplicantMap[nextWeight],
-                        currentLevelProcessedImplicantSet: out currentLevelProcessedImplicantSet,
-                        nextLevelImplicantSet: out currentWeightAndNextLevelImplicantSet);
-
-                    processedImplicantSet.UnionWith(currentLevelProcessedImplicantSet);
-                    nextLevelImplicantSet.UnionWith(currentWeightAndNextLevelImplicantSet);
-                }
-
-                finalImplicantSet.UnionWith(currentLevelImplicantSet.Except(processedImplicantSet));
-                currentLevelImplicantSet = nextLevelImplicantSet;
-            }
-
-            return finalImplicantSet;
-        }
-
-        public static bool IsImplicantContains<T>(
+        private static bool IsImplicantContains<T>(
             Implicant<T> implicant,
             DnfAnd<T> minterm) where T : class 
         {
@@ -179,7 +46,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                 .Count() == 0;
         }
 
-        public static void GetPrimaryImplicantSet<T>(
+        internal static void GetPrimaryImplicantSet<T>(
             HashSet<DnfAnd<T>> mintermSet,
             HashSet<Implicant<T>> finalImplicantSet,
             out HashSet<DnfAnd<T>> finalMintermSet,
@@ -208,7 +75,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             finalMintermSet = mintermSet.Except(processedMintermSet).ToHashSet();
         }
 
-        public static HashSet<HashSet<Implicant<T>>> TruncateImplicantSetOfSet<T>(
+        private static HashSet<HashSet<Implicant<T>>> TruncateImplicantSetOfSet<T>(
             HashSet<HashSet<Implicant<T>>> implicantSetOfSet) where T : class
         {
             var truncatedImplicantSetOfSet = new HashSet<HashSet<Implicant<T>>>();
@@ -226,7 +93,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             return truncatedImplicantSetOfSet;
         }
 
-        public static int GetImplicantUncombinedWeight<T>(
+        private static int GetImplicantUncombinedWeight<T>(
             Implicant<T> implicant) where T : class
         {
             return implicant
@@ -243,7 +110,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                 .Count();
         }
 
-        public static HashSet<Implicant<T>> PetrickMethod<T>(
+        internal static HashSet<Implicant<T>> PetrickMethod<T>(
             HashSet<DnfAnd<T>> mintermSet,
             HashSet<Implicant<T>> implicantSet) where T : class
         {
@@ -284,29 +151,10 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             return minimalImplicantSet;
         }
 
-        public static Implicant<T> MintermToImplicant<T>(
-            HashSet<IDnfOperation<T>> minterm) where T : class
-        {
-            return ImplicantOf(
-                minterm
-                    .Select(operation =>
-                    {
-                        Term<T> term = operation switch
-                        {
-                            DnfVariable<T> variable => PositiveTermOf(variable.Value),
-                            DnfNot<T> notOperation => NegativeTermOf(notOperation.Variable.Value),
-                            _ => throw new ArgumentException(
-                                message: "pattern matching in C# is sucks",
-                                paramName: nameof(operation))
-                        };
-                        return term;
-                    }));
-        }
-
-        public static HashSet<IDnfOperation<T>> ImplicantToMinset<T>(
+        private static DnfAnd<T> ImplicantToMinset<T>(
              Implicant<T> implicant) where T : class
         {
-            return implicant.TermSet
+            var elementSet = implicant.TermSet
                 .SelectMany(term =>
                 {
                     return term switch
@@ -317,19 +165,19 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                     };
                 })
                 .ToHashSet();
+            return new DnfAnd<T>(elementSet);
         }
+
         public static DnfExpression<T> ProcessDnf<T>(
             in DnfExpression<T> dnfExpression) where T : class
         {
             var mintermSet = dnfExpression.AndBlockSet.ToHashSet();
 
             var implicantSet = mintermSet
-                .Select(andBlock => MintermToImplicant(
-                    andBlock.ElementSet))
+                .Select(andBlock => ImplicantOf(andBlock))
                 .ToHashSet();
 
-            var finalImplicantSet = GetFinalImplicantSet(
-                implicantSet: implicantSet);
+            var finalImplicantSet = implicantSet.GetFinalImplicantSet();
 
             HashSet<DnfAnd<T>> finalMintermSet;
             HashSet<Implicant<T>> primaryImplicantSet;
@@ -346,7 +194,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
 
             var primaryAndMinimalMintermSet = primaryImplicantSet
                 .Union(minimalImplicantSet)
-                .Select(implicant => new DnfAnd<T>(ImplicantToMinset(implicant)))
+                .Select(implicant => ImplicantToMinset(implicant))
                 .ToHashSet();
 
             return new DnfExpression<T>(primaryAndMinimalMintermSet);

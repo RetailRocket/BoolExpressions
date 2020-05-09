@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BoolExpressions.QuineMcCluskeyMethod.Term
 {
-    public class PositiveTerm<T>
+    internal class PositiveTerm<T>
         : Term<T> where T : class
     {
         public PositiveTerm(

@@ -5,7 +5,7 @@ using BoolExpressions.QuineMcCluskeyMethod.Term;
 
 namespace BoolExpressions.QuineMcCluskeyMethod
 {
-    public class Implicant<T> where T : class
+    internal class Implicant<T> where T : class
     {
         public Implicant(
             HashSet<Term<T>> termSet)

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BoolExpressions.QuineMcCluskeyMethod.Term
 {
-    public abstract class Term<T> where T : class
+    internal abstract class Term<T> where T : class
     {
         public Term(
             T variable)
