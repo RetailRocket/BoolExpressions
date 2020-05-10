@@ -31,11 +31,5 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         {
             return HashSet<Term<T>>.CreateSetComparer().GetHashCode(TermSet);
         }
-
-        override public string ToString()
-        {
-            var mintermString = String.Join(", ", TermSet.Select(term => term.ToString()));
-            return $"Implicant({mintermString})";
-        }
     }
 }

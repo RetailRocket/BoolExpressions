@@ -26,7 +26,7 @@ namespace UnitTests.QuineMcCluskeyMethod
 
             Assert.Equal(
               expected: 2,
-              actual: ImplicantSetFinalizeExtension.GetImplicantPositiveWeight(implicant));
+              actual: implicant.GetPositiveWeight());
         }
 
         [Fact]

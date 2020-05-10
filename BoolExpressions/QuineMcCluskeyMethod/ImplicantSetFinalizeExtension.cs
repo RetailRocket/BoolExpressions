@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BoolExpressions.DisjunctiveNormalForm;
-using BoolExpressions.DisjunctiveNormalForm.Operation;
 using BoolExpressions.QuineMcCluskeyMethod.Term;
-using static BoolExpressions.QuineMcCluskeyMethod.Factories;
-using static BoolExpressions.QuineMcCluskeyMethod.Term.Factories;
-using static BoolExpressions.DisjunctiveNormalForm.Factories;
-using static BoolExpressions.DisjunctiveNormalForm.Operation.Factories;
 using System.Runtime.CompilerServices;
 
 [assembly:InternalsVisibleTo("UnitTests")]
@@ -16,22 +10,6 @@ namespace BoolExpressions.QuineMcCluskeyMethod
 {    
     internal static class ImplicantSetFinalizeExtension
     {
-        internal static int GetImplicantPositiveWeight<T>(
-            Implicant<T> implicant) where T : class
-        {
-            return implicant
-                .TermSet
-                .Where(term =>
-                {
-                    return term switch
-                    {
-                        PositiveTerm<T> _ => true,
-                        _ => false
-                    };
-                })
-                .Count();
-        }
-
         private static Implicant<T> CombineImplicants<T>(
             Implicant<T> implicantA,
             Implicant<T> implicantB) where T : class
@@ -119,7 +97,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
 
             while(currentLevelImplicantSet.Count() > 0) {
                 var implicantWeightImplicantMap = currentLevelImplicantSet
-                    .GroupBy(implicant => GetImplicantPositiveWeight(implicant))
+                    .GroupBy(implicant => implicant.GetPositiveWeight())
                     .ToDictionary(group => group.Key, group => group.ToHashSet());
 
                 var processedImplicantSet = new HashSet<Implicant<T>>();                
