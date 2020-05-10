@@ -1,32 +1,21 @@
 name: Release
 
 on:
-  push:
-    branches: [ master ]
+  release:
+    types: published
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
+    - name: Publish Release To Nuget
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore
-    - name: Pack Nuget Package
-      run: dotnet pack
-              --configuration Release
-    - name: Publish Nuget Package
-      env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push ./BoolExpressions/bin/Release/BoolExpressions*.nupkg
-              --source https://api.nuget.org/v3/index.json
-              --api-key "$NUGET_API_KEY"
+    - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF:10}
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
