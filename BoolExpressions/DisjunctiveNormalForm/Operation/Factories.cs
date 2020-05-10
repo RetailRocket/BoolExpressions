@@ -1,10 +1,10 @@
 namespace BoolExpressions.DisjunctiveNormalForm.Operation
 {
     public class Factories {
-        public static DnfNot<T> DnfNotOf<T>(
-            DnfVariable<T> variable) where T : class
+        public static DnfNotVariable<T> DnfNotVariableOf<T>(
+            T value) where T : class
         {
-            return new DnfNot<T>(variable);
+            return new DnfNotVariable<T>(value);
         }
 
         public static DnfVariable<T> DnfVariableOf<T>(

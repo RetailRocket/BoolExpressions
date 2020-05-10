@@ -24,7 +24,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                 term switch
                 {
                     DnfVariable<T> operation => operation.Value,
-                    DnfNot<T> operation => operation.Variable.Value,
+                    DnfNotVariable<T> operation => operation.Value,
                     _ => throw new ArgumentException(
                         message: "pattern matching in C# is sucks",
                         paramName: nameof(term))
@@ -38,7 +38,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                     var mintermTerm = variableMintermMapB[implicantTerm.Variable];
                     return (implicantTerm, mintermTerm) switch
                     {
-                        (PositiveTerm<T> _, DnfNot<T> _) => true,
+                        (PositiveTerm<T> _, DnfNotVariable<T> _) => true,
                         (NegativeTerm<T> _, DnfVariable<T> _) => true,
                         _ => false
                     };
@@ -159,9 +159,9 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                 {
                     return term switch
                     {
-                        PositiveTerm<T> _ => new List<IDnfOperation<T>> { DnfVariableOf(term.Variable) },
-                        NegativeTerm<T> _ => new List<IDnfOperation<T>> { DnfNotOf(DnfVariableOf(term.Variable)) },
-                        _ => new List<IDnfOperation<T>>()
+                        PositiveTerm<T> _ => new List<IDnfVariable<T>> { DnfVariableOf(term.Variable) },
+                        NegativeTerm<T> _ => new List<IDnfVariable<T>> { DnfNotVariableOf(term.Variable) },
+                        _ => new List<IDnfVariable<T>>()
                     };
                 })
                 .ToHashSet();

@@ -8,12 +8,12 @@ namespace BoolExpressions.DisjunctiveNormalForm
     public class DnfAnd<T> where T : class
     {
         public DnfAnd(
-            HashSet<IDnfOperation<T>> elementSet)
+            HashSet<IDnfVariable<T>> elementSet)
         {
             this.ElementSet = elementSet;
         }
 
-        public HashSet<IDnfOperation<T>> ElementSet { get; }
+        public HashSet<IDnfVariable<T>> ElementSet { get; }
 
         override public bool Equals(
             object that)
@@ -24,12 +24,12 @@ namespace BoolExpressions.DisjunctiveNormalForm
         public bool Equals(
             DnfAnd<T> that)
         {
-            return that != null && HashSet<IDnfOperation<T>>.CreateSetComparer().Equals(this.ElementSet, that.ElementSet);
+            return that != null && HashSet<IDnfVariable<T>>.CreateSetComparer().Equals(this.ElementSet, that.ElementSet);
         }
 
         public override int GetHashCode()
         {
-            return HashSet<IDnfOperation<T>>.CreateSetComparer().GetHashCode(ElementSet);
+            return HashSet<IDnfVariable<T>>.CreateSetComparer().GetHashCode(ElementSet);
         }
     }
 }
