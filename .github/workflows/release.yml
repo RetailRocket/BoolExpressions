@@ -11,11 +11,11 @@ jobs:
     - name: Publish Release To Nuget
     - uses: actions/checkout@v2
     - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF:10}
-      - name: Check output
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ steps.vars.outputs.tag }}
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF:10}
+    - name: Check output
+      env:
+        RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      run: |
+        echo $RELEASE_VERSION
+        echo ${{ steps.vars.outputs.tag }}
