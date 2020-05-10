@@ -3,14 +3,13 @@ namespace UnitTests.QuineMcCluskeyMethod
     using System.Collections.Generic;
     using BoolExpressions.QuineMcCluskeyMethod;
     using Xunit;
-    using static BoolExpressions.QuineMcCluskeyMethod.Factories;
-    using static BoolExpressions.QuineMcCluskeyMethod.Term.Factories;
-    using static BoolExpressions.DisjunctiveNormalForm.Factories;
-    using static BoolExpressions.DisjunctiveNormalForm.Operation.Factories;
+    using static BoolExpressions.QuineMcCluskeyMethod.Factory;
+    using static BoolExpressions.QuineMcCluskeyMethod.Term.Factory;
+    using static BoolExpressions.DisjunctiveNormalForm.Factory;
+    using static BoolExpressions.DisjunctiveNormalForm.Operation.Factory;
     using System;
-    using BoolExpressions.NonCanonicalForm;
     using BoolExpressions.DisjunctiveNormalForm;
-    using System.Collections.Immutable;
+    using BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod;
 
     public class BuildTests
     {
@@ -110,8 +109,7 @@ namespace UnitTests.QuineMcCluskeyMethod
                 )
             };
             
-            var actualFinalImplicantSet = ImplicantSetFinalizeExtension.GetFinalImplicantSet(
-                implicantSet: implicantSet);
+            var actualFinalImplicantSet = implicantSet.GetFinalImplicantSet();
             
             Assert.Equal(   
                 expected: finalImplicantSet,
@@ -189,8 +187,8 @@ namespace UnitTests.QuineMcCluskeyMethod
 
             HashSet<DnfAnd<string>> actualFinalMintermSet;
             HashSet<Implicant<string>> actualPrimaryImplicantSet;
-            
-            ImplicantHelpers.GetPrimaryImplicantSet(
+
+            BoolExpressions.QuineMcCluskeyMethod.PrimaryImplicantMethod.Helper.GetPrimaryImplicantSet(
                 mintermSet: mintermSet,
                 finalImplicantSet: finalImplicantSet,
                 finalMintermSet: out actualFinalMintermSet,
@@ -292,7 +290,7 @@ namespace UnitTests.QuineMcCluskeyMethod
                 ),
             };
 
-            var actualMinimalImplicantSet = ImplicantHelpers.PetrickMethod(
+            var actualMinimalImplicantSet = BoolExpressions.QuineMcCluskeyMethod.PetrickMethod.Helper.GetMinimalImplicantSet(
                 mintermSet: mintermSet,
                 implicantSet: implicantSet
             );
@@ -376,7 +374,7 @@ namespace UnitTests.QuineMcCluskeyMethod
                 )
             });
 
-            var actualProcessedDnfExpression = ImplicantHelpers.ProcessDnf(
+            var actualProcessedDnfExpression = BoolExpressions.QuineMcCluskeyMethod.Helper.ProcessDnf(
                 dnfExpression: dnfExpression
             );
 

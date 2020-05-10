@@ -1,6 +1,6 @@
 namespace BoolExpressions.DisjunctiveNormalForm.Operation
 {
-    public class Factories {
+    public class Factory {
         public static DnfNotVariable<T> DnfNotVariableOf<T>(
             T value) where T : class
         {

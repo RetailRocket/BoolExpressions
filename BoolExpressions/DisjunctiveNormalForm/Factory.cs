@@ -3,7 +3,7 @@ using BoolExpressions.DisjunctiveNormalForm.Operation;
 
 namespace BoolExpressions.DisjunctiveNormalForm
 {
-    public class Factories {
+    public class Factory {
         public static DnfAnd<T> DnfAndOf<T>(
             params IDnfVariable<T>[] operationList) where T : class
         {
