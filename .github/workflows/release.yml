@@ -28,7 +28,7 @@ jobs:
       run: dotnet pack
               --configuration Release
                -p:NuspecFile=pack.nuspec
-               -p:NuspecProperties="$RELEASE_VERSION"
+               -p:NuspecProperties="version=$RELEASE_VERSION"
     - name: Publish Nuget Package
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
