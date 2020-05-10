@@ -20,20 +20,13 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             Implicant<T> implicant,
             DnfAnd<T> minterm) where T : class 
         {
-            var variableMintermMapB = minterm.ElementSet.ToDictionary(term =>
-                term switch
-                {
-                    DnfVariable<T> operation => operation.Value,
-                    DnfNotVariable<T> operation => operation.Value,
-                    _ => throw new ArgumentException(
-                        message: "pattern matching in C# is sucks",
-                        paramName: nameof(term))
-                },
-                term => term);
+            var variableMintermMapB = minterm
+                .ElementSet
+                .ToDictionary(term => term.Value, term => term);
 
-            return implicant
+            return !implicant
                 .TermSet
-                .Where(implicantTerm =>
+                .Any(implicantTerm =>
                 {
                     var mintermTerm = variableMintermMapB[implicantTerm.Variable];
                     return (implicantTerm, mintermTerm) switch
@@ -42,8 +35,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                         (NegativeTerm<T> _, DnfVariable<T> _) => true,
                         _ => false
                     };
-                })
-                .Count() == 0;
+                });
         }
 
         internal static void GetPrimaryImplicantSet<T>(
