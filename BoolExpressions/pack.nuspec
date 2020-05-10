@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>BoolExpressions</id>
+        <authors>Artem Noskov, Andrey Chizh</authors>
+        <version>0.0.0</version>
+        <owners>Chizh Andrey</owners>
+        <projectUrl>https://github.com/RetailRocket/BoolExpressions</projectUrl>
+        <license type="file">LICENSE.txt</license>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Library for creating and manipulation bool expressions. It allow to create free form bool expression and gives function to convert it to full disjunctive normal form. We have a plan to give functionality for simplification full disjunctive normal form for disjunctive normal form.</description>
+        <copyright>CC BY 4.0</copyright>
+    </metadata>
+u    <files>
+        <file src="licenses\LICENSE.txt" target="" />
+    </files>
+</package>

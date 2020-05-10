@@ -27,10 +27,12 @@ jobs:
         RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
       run: dotnet pack
               --configuration Release
-              -p:PackageVersion=$RELEASE_VERSION
+               -p:NuspecFile=pack.nuspec
+               -p:NuspecProperties="version=0.0.10"
     - name: Publish Nuget Package
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push ./BoolExpressions/bin/Release/BoolExpressions*.nupkg
+        RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      run: dotnet nuget push ./BoolExpressions/bin/Release/BoolExpressions.$RELEASE_VERSION.nupkg
               --source https://api.nuget.org/v3/index.json
               --api-key "$NUGET_API_KEY"
