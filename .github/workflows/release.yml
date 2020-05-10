@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Publish Release To Nuget
-    - uses: actions/checkout@v2
+      uses: actions/checkout@v2
     - name: Set output
       run: echo ::set-output name=tag::${GITHUB_REF:10}
     - name: Check output
