@@ -14,7 +14,12 @@ namespace BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod
             this Implicant<T> implicantA,
             Implicant<T> implicantB) where T : class
         {
-            var variableTermMapB = implicantB.TermSet.ToDictionary(term => term.Value, term => term);
+            var variableTermMapB = implicantB
+                .TermSet
+                .ToDictionary(
+                    keySelector: term => term.Value,
+                    elementSelector: term => term);
+
             var combinedMinterm = implicantA
               .TermSet
               .Select(termA =>

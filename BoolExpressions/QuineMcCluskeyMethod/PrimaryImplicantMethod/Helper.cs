@@ -4,6 +4,8 @@ using System.Linq;
 using BoolExpressions.QuineMcCluskeyMethod.Term;
 using System.Runtime.CompilerServices;
 using BoolExpressions.DisjunctiveNormalForm;
+using Optional.Collections;
+using Optional.Unsafe;
 
 [assembly:InternalsVisibleTo("UnitTests")]
 
@@ -22,17 +24,20 @@ namespace BoolExpressions.QuineMcCluskeyMethod.PrimaryImplicantMethod
 
             foreach(var minterm in mintermSet)
             {
-                var candidateImplicantSet = finalImplicantSet
-                    .Where(implicant => implicant.IsContainsMinterm(minterm));
+                var primaryImplicantOptional = finalImplicantSet
+                    .Where(implicant => implicant.IsContainsMinterm(minterm))
+                    .SingleOrNone();
 
-                if(candidateImplicantSet.Count() == 1)
+                foreach(var primaryImplicant in primaryImplicantOptional)
                 {
                     processedMintermSet.Add(minterm);
-                    primaryImplicantSet.Add(candidateImplicantSet.First());
+                    primaryImplicantSet.Add(primaryImplicant);
                 }
             }
 
-            finalMintermSet = mintermSet.Except(processedMintermSet).ToHashSet();
+            finalMintermSet = mintermSet
+                .Except(processedMintermSet)
+                .ToHashSet();
         }
     }
 }

@@ -14,19 +14,13 @@ namespace BoolExpressions.QuineMcCluskeyMethod.PetrickMethod
         private static HashSet<HashSet<Implicant<T>>> TruncateImplicantSetOfSet<T>(
             HashSet<HashSet<Implicant<T>>> implicantSetOfSet) where T : class
         {
-            var truncatedImplicantSetOfSet = new HashSet<HashSet<Implicant<T>>>();
-
-            foreach(var implicantLongSet in implicantSetOfSet) {
-                if(!implicantSetOfSet
-                    .Any(implicantShortSet =>
-                        implicantLongSet != implicantShortSet &&
-                        implicantShortSet.IsSubsetOf(implicantLongSet)))
-                {
-                    truncatedImplicantSetOfSet.Add(implicantLongSet);
-                }
-            }
-
-            return truncatedImplicantSetOfSet;
+            return implicantSetOfSet
+                .Where(implicantLongSet =>
+                    !implicantSetOfSet
+                        .Any(implicantShortSet =>
+                            implicantLongSet != implicantShortSet &&
+                            implicantShortSet.IsSubsetOf(implicantLongSet)))
+                .ToHashSet();
         }
 
         internal static HashSet<Implicant<T>> GetMinimalImplicantSet<T>(
@@ -52,20 +46,19 @@ namespace BoolExpressions.QuineMcCluskeyMethod.PetrickMethod
             }
 
             var truncatedImplicantSetOfSet = TruncateImplicantSetOfSet(sufficientImplicantSetOfSet);
-            
-            var minimalImplicantSet = sufficientImplicantSetOfSet
-                .OrderBy(implicantSet =>
-                {
-                    var weight = implicantSet
-                        .Select(implicant => implicant.GetUncombinedWeight())
-                        .Sum();
 
-                    return weight;
-                })
-                .DefaultIfEmpty(new HashSet<Implicant<T>>())
-                .First();
+            if (truncatedImplicantSetOfSet.Count > 0)
+            {
+                var minimalImplicantSetWeight = truncatedImplicantSetOfSet
+                    .Min(implicantSet => implicantSet.GetUncombinedWeight());
 
-            return minimalImplicantSet;
+                return truncatedImplicantSetOfSet
+                    .First(implicantSet => implicantSet.GetUncombinedWeight() == minimalImplicantSetWeight);
+            }
+            else
+            {
+                return new HashSet<Implicant<T>>();
+            }
         }
     }
 }

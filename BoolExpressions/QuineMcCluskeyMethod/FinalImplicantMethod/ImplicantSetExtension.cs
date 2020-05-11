@@ -45,7 +45,9 @@ namespace BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod
             while(currentLevelImplicantSet.Count() > 0) {
                 var implicantWeightImplicantMap = currentLevelImplicantSet
                     .GroupBy(implicant => implicant.GetPositiveWeight())
-                    .ToDictionary(group => group.Key, group => group.ToHashSet());
+                    .ToDictionary(
+                        keySelector: group => group.Key,
+                        elementSelector: group => group.ToHashSet());
 
                 var processedImplicantSet = new HashSet<Implicant<T>>();                
                 var nextLevelImplicantSet = new HashSet<Implicant<T>>();
