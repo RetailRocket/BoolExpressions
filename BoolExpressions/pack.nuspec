@@ -12,7 +12,7 @@
         <copyright>CC BY 4.0</copyright>
         <repository type="git" url="https://github.com/RetailRocket/BoolExpressions" />
         <dependencies>
-            <group targetFramework="netcoreapp3.0" />
+            <group targetFramework="netcoreapp3.1" />
         </dependencies>
     </metadata>
     <files>
