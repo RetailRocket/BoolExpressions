@@ -14,6 +14,6 @@
     </metadata>
     <files>
         <file src="licenses\LICENSE.txt" target="" />
-        <file src="bin\release\netcoreapp3.1\*.dll" target="lib"/>
+        <file src="bin\Release\netcoreapp3.1\*.dll" target="lib"/>
     </files>
 </package>
