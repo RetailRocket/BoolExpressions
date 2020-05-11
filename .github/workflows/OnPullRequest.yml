@@ -29,4 +29,3 @@ jobs:
               --configuration Release
                -p:NuspecFile=pack.nuspec
                -p:NuspecProperties="version=$RELEASE_VERSION"
-    - name: Publish Nuget Package
