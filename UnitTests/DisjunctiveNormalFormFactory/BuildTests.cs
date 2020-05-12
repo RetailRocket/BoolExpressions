@@ -21,7 +21,7 @@ namespace UnitTests.DisjunctiveNormalFormFactory
 
             Assert.Equal(
                 expected: 5,
-                actual: dnfExp.AndBlockList.Count);
+                actual: dnfExp.AndBlockSet.Count);
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace UnitTests.DisjunctiveNormalFormFactory
 
             Assert.Equal(
                 expected: 13,
-                actual: dnfExp.AndBlockList.Count);
+                actual: dnfExp.AndBlockSet.Count);
         }
     }
 }

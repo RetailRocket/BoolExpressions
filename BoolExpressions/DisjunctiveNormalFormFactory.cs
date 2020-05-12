@@ -9,7 +9,7 @@ namespace BoolExpressions
     public static class DisjunctiveNormalFormFactory
     {
         public static DnfExpression<T> Build<T>(
-            INcfExpression<T> ncfExpression)
+            INcfExpression<T> ncfExpression) where T : class
         {
             var allPossibleVarCombinationOf = NonCanonicalBoolExpressionHelpers.AllPossibleVarCombinationFor(
                 ncfExpression: ncfExpression);
@@ -19,29 +19,28 @@ namespace BoolExpressions
                     ncfExpression,
                     line));
 
-            var dnfExpression = new List<DnfAnd<T>>();
+            var dnfExpression = new HashSet<DnfAnd<T>>();
 
             foreach (var trueCombination in trueCombinationList)
             {
-                var elementList = new List<IDnfOperation<T>>();
+                var elementSet = new HashSet<IDnfVariable<T>>();
 
                 foreach (var keyValue in trueCombination)
                 {
-                    var dnfVar = new DnfVariable<T>(
-                        value: keyValue.Key);
+                    var variable = keyValue.Value ?
+                        (IDnfVariable<T>)new DnfVariable<T>(value: keyValue.Key) :
+                        (IDnfVariable<T>)new DnfNotVariable<T>(value: keyValue.Key);
 
-                    elementList.Add(
-                        item: keyValue.Value ?
-                            (IDnfOperation<T>)dnfVar :
-                            new DnfNot<T>(variable: dnfVar));
+                    elementSet.Add(
+                        item: variable);
                 }
 
                 dnfExpression.Add(new DnfAnd<T>(
-                    elementList: elementList));
+                    elementSet: elementSet));
             }
 
             return new DnfExpression<T>(
-                andBlockList: dnfExpression);
+                andBlockSet: dnfExpression);
         }
     }
 }
