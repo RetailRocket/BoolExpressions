@@ -2,8 +2,6 @@
     <PropertyGroup>
         <LangVersion>8</LangVersion>
         <Nullable>disable</Nullable>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.0.8</PackageVersion>
         <Authors>Artem Noskov, Andrey Chizh</Authors>
         <Company>Retail Rocket</Company>
         <RepositoryUrl>https://github.com/RetailRocket/BoolExpressions</RepositoryUrl>
