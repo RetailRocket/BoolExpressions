@@ -8,7 +8,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.Term
         : Term<T> where T : class
     {
         public CombinedTerm(
-            T variable) : base(variable)
+            T value) : base(value)
         {
         }
     }

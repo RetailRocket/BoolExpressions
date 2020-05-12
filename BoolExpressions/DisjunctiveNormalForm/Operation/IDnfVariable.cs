@@ -1,6 +1,7 @@
 namespace BoolExpressions.DisjunctiveNormalForm.Operation
 {
-    public interface IDnfOperation<T>
+    public interface IDnfVariable<T>
     {
+        public T Value { get; }
     }
 }

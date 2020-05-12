@@ -6,63 +6,10 @@ using System.Runtime.CompilerServices;
 
 [assembly:InternalsVisibleTo("UnitTests")]
 
-namespace BoolExpressions.QuineMcCluskeyMethod
+namespace BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod
 {    
-    internal static class ImplicantSetFinalizeExtension
+    internal static class ImplicantSetExtension
     {
-        private static Implicant<T> CombineImplicants<T>(
-            Implicant<T> implicantA,
-            Implicant<T> implicantB) where T : class
-        {
-            var variableTermMapB = implicantB.TermSet.ToDictionary(term => term.Variable, term => term);
-            var combinedMinterm = implicantA
-              .TermSet
-              .Select(termA =>
-              {
-                  var variable = termA.Variable;
-                  var termB = variableTermMapB[variable];
-                  return (termA, termB) switch
-                  {
-                      (PositiveTerm<T> _, NegativeTerm<T> _) => new CombinedTerm<T>(variable),
-                      (NegativeTerm<T> _, PositiveTerm<T> _) => new CombinedTerm<T>(variable),
-                      _ => termA
-                  };
-              })
-              .ToHashSet();
-            return new Implicant<T>(combinedMinterm);
-        }
-
-        private static int GetCombinedVariableDistance<T>(
-            Implicant<T> implicantA,
-            Implicant<T> implicantB) where T : class
-        {
-            Func<Implicant<T>, HashSet<T>> getCombinedVariables = (Implicant<T> implicant) =>
-            {
-                return implicant
-                    .TermSet
-                    .Where(term =>
-                    {
-                        return term switch
-                        {
-                            CombinedTerm<T> _ => true,
-                            _ => false
-                        };
-                    })
-                    .Select(term => term.Variable)
-                    .ToHashSet();
-            };
-
-            var combinedVariablesA = getCombinedVariables(implicantA);
-            var combinedVariablesB = getCombinedVariables(implicantB);
-
-            var difference = combinedVariablesA
-                .Union(combinedVariablesB)
-                .Except(combinedVariablesA
-                    .Intersect(combinedVariablesB));
-
-            return difference.Count();
-        }
-
         private static void ProcessCurrentLevelImplicantSet<T>(
             HashSet<Implicant<T>> currentWightImplicantSet,
             HashSet<Implicant<T>> nextWeightImplicantSet,
@@ -76,10 +23,10 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             {
                 foreach (var nextWeightImplicant in nextWeightImplicantSet)
                 {
-                    var implicantsDistance = GetCombinedVariableDistance(currentWightImplicant, nextWeightImplicant);
+                    var implicantsDistance = currentWightImplicant.GetCombinedValueDistance(nextWeightImplicant);
                     if (implicantsDistance != 0) continue;
-                    var nextLevelImplicantCandidate = CombineImplicants(currentWightImplicant, nextWeightImplicant);
-                    var nextLevelImplicantCandidateDistance = GetCombinedVariableDistance(currentWightImplicant, nextLevelImplicantCandidate);
+                    var nextLevelImplicantCandidate = currentWightImplicant.CombineImplicants(nextWeightImplicant);
+                    var nextLevelImplicantCandidateDistance = currentWightImplicant.GetCombinedValueDistance(nextLevelImplicantCandidate);
                     if (nextLevelImplicantCandidateDistance != 1) continue;
 
                     nextLevelImplicantSet.Add(nextLevelImplicantCandidate);
@@ -98,7 +45,9 @@ namespace BoolExpressions.QuineMcCluskeyMethod
             while(currentLevelImplicantSet.Count() > 0) {
                 var implicantWeightImplicantMap = currentLevelImplicantSet
                     .GroupBy(implicant => implicant.GetPositiveWeight())
-                    .ToDictionary(group => group.Key, group => group.ToHashSet());
+                    .ToDictionary(
+                        keySelector: group => group.Key,
+                        elementSelector: group => group.ToHashSet());
 
                 var processedImplicantSet = new HashSet<Implicant<T>>();                
                 var nextLevelImplicantSet = new HashSet<Implicant<T>>();

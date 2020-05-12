@@ -4,23 +4,23 @@ using System.Linq;
 
 namespace BoolExpressions.QuineMcCluskeyMethod.Term
 {
-    internal class Factories {
+    internal class Factory {
         public static PositiveTerm<T> PositiveTermOf<T>(
-            T variable) where T : class
+            T value) where T : class
         {
-            return new PositiveTerm<T>(variable);
+            return new PositiveTerm<T>(value);
         }
 
         public static NegativeTerm<T> NegativeTermOf<T>(
-            T variable) where T : class
+            T value) where T : class
         {
-            return new NegativeTerm<T>(variable);
+            return new NegativeTerm<T>(value);
         }
 
         public static CombinedTerm<T> CombinedTermOf<T>(
-            T variable) where T : class
+            T value) where T : class
         {
-            return new CombinedTerm<T>(variable);
+            return new CombinedTerm<T>(value);
         }
     }
 }

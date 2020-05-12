@@ -22,4 +22,8 @@
     <ItemGroup>
         <None Include="licenses\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="Optional" Version="4.0.0" />
+    </ItemGroup>
 </Project>

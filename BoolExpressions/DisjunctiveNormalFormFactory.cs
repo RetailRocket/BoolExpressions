@@ -23,17 +23,16 @@ namespace BoolExpressions
 
             foreach (var trueCombination in trueCombinationList)
             {
-                var elementSet = new HashSet<IDnfOperation<T>>();
+                var elementSet = new HashSet<IDnfVariable<T>>();
 
                 foreach (var keyValue in trueCombination)
                 {
-                    var dnfVar = new DnfVariable<T>(
-                        value: keyValue.Key);
+                    var variable = keyValue.Value ?
+                        (IDnfVariable<T>)new DnfVariable<T>(value: keyValue.Key) :
+                        (IDnfVariable<T>)new DnfNotVariable<T>(value: keyValue.Key);
 
                     elementSet.Add(
-                        item: keyValue.Value ?
-                            (IDnfOperation<T>)dnfVar :
-                            new DnfNot<T>(variable: dnfVar));
+                        item: variable);
                 }
 
                 dnfExpression.Add(new DnfAnd<T>(

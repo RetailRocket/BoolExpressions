@@ -4,11 +4,12 @@ using System.Linq;
 using BoolExpressions.DisjunctiveNormalForm;
 using BoolExpressions.DisjunctiveNormalForm.Operation;
 using BoolExpressions.QuineMcCluskeyMethod.Term;
-using static BoolExpressions.QuineMcCluskeyMethod.Term.Factories;
+using static BoolExpressions.QuineMcCluskeyMethod.Term.Factory;
+using static BoolExpressions.DisjunctiveNormalForm.Operation.Factory;
 
 namespace BoolExpressions.QuineMcCluskeyMethod
 {
-    internal class Factories {
+    internal class Factory {
         public static Implicant<T> ImplicantOf<T>(
             params Term<T>[] termSet) where T : class
         {
@@ -32,13 +33,30 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                         Term<T> term = operation switch
                         {
                             DnfVariable<T> variable => PositiveTermOf(variable.Value),
-                            DnfNot<T> notOperation => NegativeTermOf(notOperation.Variable.Value),
+                            DnfNotVariable<T> notOperation => NegativeTermOf(notOperation.Value),
                             _ => throw new ArgumentException(
                                 message: "pattern matching in C# is sucks",
                                 paramName: nameof(operation))
                         };
                         return term;
                     }));
+        }
+
+        public static DnfAnd<T> mintermOf<T>(
+             Implicant<T> implicant) where T : class
+        {
+            var elementSet = implicant.TermSet
+                .SelectMany(term =>
+                {
+                    return term switch
+                    {
+                        PositiveTerm<T> _ => new List<IDnfVariable<T>> { DnfVariableOf(term.Value) },
+                        NegativeTerm<T> _ => new List<IDnfVariable<T>> { DnfNotVariableOf(term.Value) },
+                        _ => new List<IDnfVariable<T>>()
+                    };
+                })
+                .ToHashSet();
+            return new DnfAnd<T>(elementSet);
         }
     }
 }

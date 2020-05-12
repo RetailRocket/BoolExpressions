@@ -3,11 +3,11 @@ using BoolExpressions.DisjunctiveNormalForm.Operation;
 
 namespace BoolExpressions.DisjunctiveNormalForm
 {
-    public class Factories {
+    public class Factory {
         public static DnfAnd<T> DnfAndOf<T>(
-            params IDnfOperation<T>[] operationList) where T : class
+            params IDnfVariable<T>[] operationList) where T : class
         {
-            return new DnfAnd<T>(new HashSet<IDnfOperation<T>>(operationList));
+            return new DnfAnd<T>(new HashSet<IDnfVariable<T>>(operationList));
         }
     }
 }

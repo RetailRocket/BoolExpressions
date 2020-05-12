@@ -3,14 +3,13 @@ namespace UnitTests.QuineMcCluskeyMethod
     using System.Collections.Generic;
     using BoolExpressions.QuineMcCluskeyMethod;
     using Xunit;
-    using static BoolExpressions.QuineMcCluskeyMethod.Factories;
-    using static BoolExpressions.QuineMcCluskeyMethod.Term.Factories;
-    using static BoolExpressions.DisjunctiveNormalForm.Factories;
-    using static BoolExpressions.DisjunctiveNormalForm.Operation.Factories;
+    using static BoolExpressions.QuineMcCluskeyMethod.Factory;
+    using static BoolExpressions.QuineMcCluskeyMethod.Term.Factory;
+    using static BoolExpressions.DisjunctiveNormalForm.Factory;
+    using static BoolExpressions.DisjunctiveNormalForm.Operation.Factory;
     using System;
-    using BoolExpressions.NonCanonicalForm;
     using BoolExpressions.DisjunctiveNormalForm;
-    using System.Collections.Immutable;
+    using BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod;
 
     public class BuildTests
     {
@@ -110,8 +109,7 @@ namespace UnitTests.QuineMcCluskeyMethod
                 )
             };
             
-            var actualFinalImplicantSet = ImplicantSetFinalizeExtension.GetFinalImplicantSet(
-                implicantSet: implicantSet);
+            var actualFinalImplicantSet = implicantSet.GetFinalImplicantSet();
             
             Assert.Equal(   
                 expected: finalImplicantSet,
@@ -123,43 +121,32 @@ namespace UnitTests.QuineMcCluskeyMethod
         {
             var mintermSet = new HashSet<DnfAnd<string>> {
                 DnfAndOf(
-                    DnfNotOf(
-                        DnfVariableOf("A")),
+                    DnfNotVariableOf("A"),
                     DnfVariableOf("B"),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("B"),
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
                     DnfVariableOf("B"),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
                     DnfVariableOf("D")
                 ),
@@ -200,8 +187,8 @@ namespace UnitTests.QuineMcCluskeyMethod
 
             HashSet<DnfAnd<string>> actualFinalMintermSet;
             HashSet<Implicant<string>> actualPrimaryImplicantSet;
-            
-            ImplicantHelpers.GetPrimaryImplicantSet(
+
+            BoolExpressions.QuineMcCluskeyMethod.PrimaryImplicantMethod.Helper.GetPrimaryImplicantSet(
                 mintermSet: mintermSet,
                 finalImplicantSet: finalImplicantSet,
                 finalMintermSet: out actualFinalMintermSet,
@@ -229,33 +216,25 @@ namespace UnitTests.QuineMcCluskeyMethod
             var expectedFinalMintermSet = new HashSet<DnfAnd<string>> {
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("B"),
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
                     DnfVariableOf("B"),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
                     DnfVariableOf("D")
                 ),
@@ -287,39 +266,31 @@ namespace UnitTests.QuineMcCluskeyMethod
             var mintermSet = new HashSet<DnfAnd<string>> {
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("B"),
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
                     DnfVariableOf("B"),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
                     DnfVariableOf("D")
                 ),
             };
 
-            var actualMinimalImplicantSet = ImplicantHelpers.PetrickMethod(
+            var actualMinimalImplicantSet = BoolExpressions.QuineMcCluskeyMethod.PetrickMethod.Helper.GetMinimalImplicantSet(
                 mintermSet: mintermSet,
                 implicantSet: implicantSet
             );
@@ -354,51 +325,38 @@ namespace UnitTests.QuineMcCluskeyMethod
         {
             var dnfExpression = new DnfExpression<string>(new HashSet<DnfAnd<string>> {
                 DnfAndOf(
-                    DnfNotOf(
-                        DnfVariableOf("A")),
+                    DnfNotVariableOf("A"),
                     DnfVariableOf("B"),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("B"),
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
+                    DnfNotVariableOf("B"),
+                    DnfNotVariableOf("C"),
                     DnfVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
                     DnfVariableOf("B"),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
                     DnfVariableOf("D")
                 ),
@@ -406,8 +364,7 @@ namespace UnitTests.QuineMcCluskeyMethod
                     DnfVariableOf("A"),
                     DnfVariableOf("B"),
                     DnfVariableOf("C"),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
@@ -417,22 +374,19 @@ namespace UnitTests.QuineMcCluskeyMethod
                 )
             });
 
-            var actualProcessedDnfExpression = ImplicantHelpers.ProcessDnf(
+            var actualProcessedDnfExpression = BoolExpressions.QuineMcCluskeyMethod.Helper.ProcessDnf(
                 dnfExpression: dnfExpression
             );
 
             var expectedProcessedDnfExpression1 = new DnfExpression<string>(new HashSet<DnfAnd<string>> {
                 DnfAndOf(
                     DnfVariableOf("B"),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B"))
+                    DnfNotVariableOf("B")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
@@ -440,8 +394,7 @@ namespace UnitTests.QuineMcCluskeyMethod
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
+                    DnfNotVariableOf("B"),
                     DnfVariableOf("C"),
                     DnfVariableOf("D")
                 )
@@ -450,15 +403,12 @@ namespace UnitTests.QuineMcCluskeyMethod
             var expectedProcessedDnfExpression2 = new DnfExpression<string>(new HashSet<DnfAnd<string>> {
                 DnfAndOf(
                     DnfVariableOf("B"),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B"))
+                    DnfNotVariableOf("B")
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
@@ -466,12 +416,9 @@ namespace UnitTests.QuineMcCluskeyMethod
                 ),
                 DnfAndOf(
                     DnfVariableOf("A"),
-                    DnfNotOf(
-                        DnfVariableOf("B")),
-                    DnfNotOf(
-                        DnfVariableOf("C")),
-                    DnfNotOf(
-                        DnfVariableOf("D"))
+                    DnfNotVariableOf("B"),
+                    DnfNotVariableOf("C"),
+                    DnfNotVariableOf("D")
                 )
             });
 

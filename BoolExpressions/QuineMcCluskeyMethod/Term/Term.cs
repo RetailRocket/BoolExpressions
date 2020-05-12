@@ -7,12 +7,12 @@ namespace BoolExpressions.QuineMcCluskeyMethod.Term
     internal abstract class Term<T> where T : class
     {
         public Term(
-            T variable)
+            T value)
         {
-            Variable = variable;
+            Value = value;
         }
 
-        public T Variable { get; }
+        public T Value { get; }
 
         public override bool Equals(
             object that)
@@ -23,12 +23,12 @@ namespace BoolExpressions.QuineMcCluskeyMethod.Term
         public bool Equals(
             Term<T> that)
         {
-            return that != null && that.GetType() == this.GetType() && that.Variable.Equals(this.Variable);
+            return that != null && that.GetType() == this.GetType() && that.Value.Equals(this.Value);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(GetType().GetHashCode(), Variable.GetHashCode());
+            return HashCode.Combine(GetType().GetHashCode(), Value.GetHashCode());
         }
     }
 }
