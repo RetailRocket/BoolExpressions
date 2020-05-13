@@ -32,8 +32,8 @@ namespace BoolExpressions.QuineMcCluskeyMethod
                     {
                         Term<T> term = operation switch
                         {
-                            DnfVariable<T> variable => PositiveTermOf(variable.Value),
-                            DnfNotVariable<T> notOperation => NegativeTermOf(notOperation.Value),
+                            DnfVariable<T> variable => (Term<T>)PositiveTermOf(variable.Value),
+                            DnfNotVariable<T> notOperation => (Term<T>)NegativeTermOf(notOperation.Value),
                             _ => throw new ArgumentException(
                                 message: "pattern matching in C# is sucks",
                                 paramName: nameof(operation))
