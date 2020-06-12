@@ -52,12 +52,12 @@ namespace BoolExpressions.NonCanonicalForm
             var listOfVar = GetVariables(ncfExpression: ncfExpression)
                 .ToList();
 
-            var numberOfAllPossibleCombination = (int)Math.Pow(2, listOfVar.Count);
+            var numberOfAllPossibleCombination = (ulong)Math.Pow(2, listOfVar.Count);
             var tableOfAllPossibleCombination = new List<Dictionary<T, bool>>();
             var numberOfVars = listOfVar.Count;
             uint binaryMaskForLine = 0;
 
-            for (var i = 0; i < numberOfAllPossibleCombination; ++i)
+            for (var i = 0u; i < numberOfAllPossibleCombination; ++i)
             {
                 var lineOfCombination = new Dictionary<T, bool>(
                     capacity: numberOfVars);
