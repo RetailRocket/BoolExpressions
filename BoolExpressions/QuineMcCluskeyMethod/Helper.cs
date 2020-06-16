@@ -15,7 +15,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
     public static class Helper
     {
         public static DnfExpression<T> ProcessDnf<T>(
-            in DnfExpression<T> dnfExpression) where T : class
+            in DnfExpression<T> dnfExpression)
         {
             var mintermSet = dnfExpression.AndBlockSet.ToHashSet();
 

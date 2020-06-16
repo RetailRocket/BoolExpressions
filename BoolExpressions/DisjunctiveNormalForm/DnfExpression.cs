@@ -2,7 +2,7 @@ namespace BoolExpressions.DisjunctiveNormalForm
 {
     using System.Collections.Generic;
 
-    public class DnfExpression<T> where T : class
+    public class DnfExpression<T>
     {
         public DnfExpression(
             HashSet<DnfAnd<T>> andBlockSet)
@@ -15,7 +15,7 @@ namespace BoolExpressions.DisjunctiveNormalForm
         public override bool Equals(
             object obj)
         {
-            return Equals(obj as DnfExpression<T>);
+            return obj is DnfExpression<T> that && this.Equals(that);
         }
 
         public bool Equals(

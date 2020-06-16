@@ -6,19 +6,19 @@ namespace BoolExpressions.QuineMcCluskeyMethod.Term
 {
     internal class Factory {
         public static PositiveTerm<T> PositiveTermOf<T>(
-            T value) where T : class
+            T value)
         {
             return new PositiveTerm<T>(value);
         }
 
         public static NegativeTerm<T> NegativeTermOf<T>(
-            T value) where T : class
+            T value)
         {
             return new NegativeTerm<T>(value);
         }
 
         public static CombinedTerm<T> CombinedTermOf<T>(
-            T value) where T : class
+            T value)
         {
             return new CombinedTerm<T>(value);
         }

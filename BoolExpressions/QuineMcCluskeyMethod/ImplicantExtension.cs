@@ -13,7 +13,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
     internal static class ImplicantExtension
     {
         internal static int GetPositiveWeight<T>(
-            this Implicant<T> implicant) where T : class
+            this Implicant<T> implicant)
         {
             return implicant
                 .TermSet
@@ -21,7 +21,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         }
 
         internal static int GetUncombinedWeight<T>(
-            this Implicant<T> implicant) where T : class
+            this Implicant<T> implicant)
         {
             return implicant
                 .TermSet
@@ -32,7 +32,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
 
         internal static bool IsContainsMinterm<T>(
             this Implicant<T> implicant,
-            DnfAnd<T> minterm) where T : class 
+            DnfAnd<T> minterm)
         {
             var variableMintermMapB = minterm
                 .ElementSet

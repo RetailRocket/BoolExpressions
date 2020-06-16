@@ -5,7 +5,7 @@ using BoolExpressions.QuineMcCluskeyMethod.Term;
 
 namespace BoolExpressions.QuineMcCluskeyMethod
 {
-    internal class Implicant<T> where T : class
+    internal class Implicant<T>
     {
         public Implicant(
             HashSet<Term<T>> termSet)
@@ -18,7 +18,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         public override bool Equals(
             object obj)
         {
-            return Equals(obj as Implicant<T>);
+            return obj is Implicant<T> that && this.Equals(that);
         }
 
         public bool Equals(

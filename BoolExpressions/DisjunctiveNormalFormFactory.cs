@@ -9,7 +9,7 @@ namespace BoolExpressions
     public static class DisjunctiveNormalFormFactory
     {
         public static DnfExpression<T> Build<T>(
-            INcfExpression<T> ncfExpression) where T : class
+            INcfExpression<T> ncfExpression)
         {
             var allPossibleVarCombinationOf = NonCanonicalBoolExpressionHelpers.AllPossibleVarCombinationFor(
                 ncfExpression: ncfExpression);

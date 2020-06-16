@@ -11,19 +11,19 @@ namespace BoolExpressions.QuineMcCluskeyMethod
 {
     internal class Factory {
         public static Implicant<T> ImplicantOf<T>(
-            params Term<T>[] termSet) where T : class
+            params Term<T>[] termSet)
         {
             return new Implicant<T>(new HashSet<Term<T>>(termSet));
         }
 
         public static Implicant<T> ImplicantOf<T>(
-            IEnumerable<Term<T>> termSet) where T : class
+            IEnumerable<Term<T>> termSet)
         {
             return new Implicant<T>(new HashSet<Term<T>>(termSet));
         }
 
         public static Implicant<T> ImplicantOf<T>(
-            DnfAnd<T> minterm) where T : class
+            DnfAnd<T> minterm)
         {
             return ImplicantOf(
                 minterm
@@ -43,7 +43,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod
         }
 
         public static DnfAnd<T> mintermOf<T>(
-             Implicant<T> implicant) where T : class
+             Implicant<T> implicant)
         {
             var elementSet = implicant.TermSet
                 .SelectMany(term =>

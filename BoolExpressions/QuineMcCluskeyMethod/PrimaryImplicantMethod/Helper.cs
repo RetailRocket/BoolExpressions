@@ -17,7 +17,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.PrimaryImplicantMethod
             HashSet<DnfAnd<T>> mintermSet,
             HashSet<Implicant<T>> finalImplicantSet,
             out HashSet<DnfAnd<T>> finalMintermSet,
-            out HashSet<Implicant<T>> primaryImplicantSet) where T : class
+            out HashSet<Implicant<T>> primaryImplicantSet)
         {
             var processedMintermSet = new HashSet<DnfAnd<T>>();
             primaryImplicantSet = new HashSet<Implicant<T>>();
