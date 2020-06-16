@@ -12,7 +12,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod
     {
         internal static Implicant<T> CombineImplicants<T>(
             this Implicant<T> implicantA,
-            Implicant<T> implicantB) where T : class
+            Implicant<T> implicantB)
         {
             var variableTermMapB = implicantB
                 .TermSet
@@ -38,7 +38,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod
         }
 
         internal static HashSet<T> GetCombinedValueSet<T>(
-            this Implicant<T> implicant) where T : class
+            this Implicant<T> implicant)
         {
             return implicant
                     .TermSet
@@ -49,7 +49,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod
 
         internal static int GetCombinedValueDistance<T>(
             this Implicant<T> implicantA,
-            Implicant<T> implicantB) where T : class
+            Implicant<T> implicantB)
         {
             var combinedValuesA = GetCombinedValueSet(implicantA);
             var combinedValuesB = GetCombinedValueSet(implicantB);

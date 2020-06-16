@@ -14,7 +14,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod
             HashSet<Implicant<T>> currentWightImplicantSet,
             HashSet<Implicant<T>> nextWeightImplicantSet,
             out HashSet<Implicant<T>> currentLevelProcessedImplicantSet,
-            out HashSet<Implicant<T>> nextLevelImplicantSet) where T : class
+            out HashSet<Implicant<T>> nextLevelImplicantSet)
         {
             currentLevelProcessedImplicantSet = new HashSet<Implicant<T>>();
             nextLevelImplicantSet = new HashSet<Implicant<T>>();
@@ -37,7 +37,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.FinalImplicantMethod
         }
 
         internal static HashSet<Implicant<T>> GetFinalImplicantSet<T>(
-            this HashSet<Implicant<T>> implicantSet) where T : class
+            this HashSet<Implicant<T>> implicantSet)
         {
             var finalImplicantSet = new HashSet<Implicant<T>>();
             var currentLevelImplicantSet = implicantSet;

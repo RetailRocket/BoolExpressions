@@ -12,7 +12,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.PetrickMethod
     internal static class Helper
     {
         private static HashSet<HashSet<Implicant<T>>> TruncateImplicantSetOfSet<T>(
-            HashSet<HashSet<Implicant<T>>> implicantSetOfSet) where T : class
+            HashSet<HashSet<Implicant<T>>> implicantSetOfSet)
         {
             return implicantSetOfSet
                 .Where(implicantLongSet =>
@@ -25,7 +25,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.PetrickMethod
 
         internal static HashSet<Implicant<T>> GetMinimalImplicantSet<T>(
             HashSet<DnfAnd<T>> mintermSet,
-            HashSet<Implicant<T>> implicantSet) where T : class
+            HashSet<Implicant<T>> implicantSet)
         {
             var sufficientImplicantSetOfSet = new HashSet<HashSet<Implicant<T>>>(HashSet<Implicant<T>>.CreateSetComparer());
 

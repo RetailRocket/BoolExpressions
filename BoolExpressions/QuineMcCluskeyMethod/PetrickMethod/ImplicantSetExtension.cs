@@ -11,7 +11,7 @@ namespace BoolExpressions.QuineMcCluskeyMethod.PetrickMethod
     internal static class ImplicantSetExtension
     {
         internal static int GetUncombinedWeight<T>(
-            this HashSet<Implicant<T>> implicantSet) where T : class
+            this HashSet<Implicant<T>> implicantSet)
         {
             return implicantSet
                 .Select(implicant => implicant.GetUncombinedWeight())

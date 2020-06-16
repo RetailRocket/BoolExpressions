@@ -5,7 +5,7 @@ namespace BoolExpressions.DisjunctiveNormalForm
     using System.Linq;
     using BoolExpressions.DisjunctiveNormalForm.Operation;
 
-    public class DnfAnd<T> where T : class
+    public class DnfAnd<T>
     {
         public DnfAnd(
             HashSet<IDnfVariable<T>> elementSet)
@@ -16,9 +16,9 @@ namespace BoolExpressions.DisjunctiveNormalForm
         public HashSet<IDnfVariable<T>> ElementSet { get; }
 
         override public bool Equals(
-            object that)
+            object obj)
         {
-            return Equals(that as DnfAnd<T>);
+            return obj is DnfAnd<T> that && this.Equals(that);
         }
 
         public bool Equals(

@@ -3,7 +3,7 @@ using System;
 namespace BoolExpressions.DisjunctiveNormalForm.Operation
 {
     public class DnfVariable<T>
-        : IDnfVariable<T> where T : class
+        : IDnfVariable<T>
     {
         public DnfVariable(
             T value)
@@ -13,10 +13,10 @@ namespace BoolExpressions.DisjunctiveNormalForm.Operation
 
         public T Value { get; }
 
-        public override bool Equals(
-            object that)
+        override public bool Equals(
+            object obj)
         {
-            return Equals(that as DnfVariable<T>);
+            return obj is DnfVariable<T> that && this.Equals(that);
         }
 
         public bool Equals(
@@ -25,9 +25,9 @@ namespace BoolExpressions.DisjunctiveNormalForm.Operation
             return that != null && that.Value.Equals(this.Value);
         }
 
-        public override int GetHashCode()
+        override public int GetHashCode()
         {
-            return HashCode.Combine(GetType().GetHashCode(), Value.GetHashCode());
+            return Value.GetHashCode();
         }
     }
 }
