@@ -13,7 +13,7 @@ namespace BoolExpressions.DisjunctiveNormalForm.Operation
 
         public T Value { get; }
 
-        override public bool Equals(
+        public override bool Equals(
             object obj)
         {
             return obj is DnfNotVariable<T> that && this.Equals(that);
@@ -25,9 +25,10 @@ namespace BoolExpressions.DisjunctiveNormalForm.Operation
             return that != null && that.Value.Equals(this.Value);
         }
 
-        override public int GetHashCode()
+        public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return this.Value
+                .GetHashCode();
         }
     }
 }

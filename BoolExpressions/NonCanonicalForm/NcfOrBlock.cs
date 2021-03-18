@@ -1,14 +1,17 @@
 namespace BoolExpressions.NonCanonicalForm
 {
     public class NcfOrBlock<T>
-        : INcfBlock<T>
+        : INcfExpression<T>
     {
         public NcfOrBlock(
-            params INcfExpression<T>[] termList)
+            INcfExpression<T> termA,
+            INcfExpression<T> termB)
         {
-            this.TermList = termList;
+            this.TermA = termA;
+            this.TermB = termB;
         }
 
-        public INcfExpression<T>[] TermList { get; }
+        public INcfExpression<T> TermA { get; set; }
+        public INcfExpression<T> TermB { get; set; }
     }
 }

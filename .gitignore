@@ -3,3 +3,5 @@
 /UnitTests/bin
 /BoolExpressions/obj
 /BoolExpressions/bin
+/BoolExpressions.DisjunctiveNormalFormFactory/bin
+/BoolExpressions.DisjunctiveNormalFormFactory/obj

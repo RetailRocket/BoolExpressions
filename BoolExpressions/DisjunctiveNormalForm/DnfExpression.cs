@@ -4,13 +4,13 @@ namespace BoolExpressions.DisjunctiveNormalForm
 
     public class DnfExpression<T>
     {
-        public DnfExpression(
-            HashSet<DnfAnd<T>> andBlockSet)
-        {
-            this.AndBlockSet = andBlockSet;
-        }
+        public ImmutableNotEmptyHashSet<DnfBlock<T>> BlockSet { get; }
 
-        public HashSet<DnfAnd<T>> AndBlockSet { get; }
+        public DnfExpression(
+            ImmutableNotEmptyHashSet<DnfBlock<T>> blockSet)
+        {
+            this.BlockSet = blockSet;
+        }
 
         public override bool Equals(
             object obj)
@@ -21,12 +21,13 @@ namespace BoolExpressions.DisjunctiveNormalForm
         public bool Equals(
             DnfExpression<T> that)
         {
-            return that != null && HashSet<DnfAnd<T>>.CreateSetComparer().Equals(this.AndBlockSet, that.AndBlockSet);
+            return that != null && this.BlockSet.Equals(that.BlockSet);
         }
 
         public override int GetHashCode()
         {
-            return HashSet<DnfAnd<T>>.CreateSetComparer().GetHashCode(AndBlockSet);
+            return this.BlockSet
+                .GetHashCode();
         }
     }
 }

@@ -1,21 +1,18 @@
 namespace BoolExpressions.NonCanonicalForm
 {
     public class NcfAndBlock<T>
-        : INcfBlock<T>
+        : INcfExpression<T>
     {
         public NcfAndBlock(
-            params INcfExpression<T>[] termList)
+            INcfExpression<T> termA,
+            INcfExpression<T> termB)
         {
-            this.TermList = termList;
+            this.TermA = termA;
+            this.TermB = termB;
         }
 
-        public INcfExpression<T>[] TermList { get; set; }
+        public INcfExpression<T> TermA { get; set; }
 
-        public static INcfExpression<T> Of(
-            params INcfExpression<T>[] termList)
-        {
-            return new NcfAndBlock<T>(
-                termList: termList);
-        }
+        public INcfExpression<T> TermB { get; set; }
     }
 }

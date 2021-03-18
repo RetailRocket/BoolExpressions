@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoolExpressions", "BoolExpr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{79EF7A85-3DA9-4260-BCB7-D0F49DF46845}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoolExpressions.DisjunctiveNormalFormFactory", "BoolExpressions.DisjunctiveNormalFormFactory\BoolExpressions.DisjunctiveNormalFormFactory.csproj", "{BD7CCFF6-E426-4DA2-BBE6-06FCFBEA5BB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{79EF7A85-3DA9-4260-BCB7-D0F49DF46845}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79EF7A85-3DA9-4260-BCB7-D0F49DF46845}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79EF7A85-3DA9-4260-BCB7-D0F49DF46845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD7CCFF6-E426-4DA2-BBE6-06FCFBEA5BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7CCFF6-E426-4DA2-BBE6-06FCFBEA5BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7CCFF6-E426-4DA2-BBE6-06FCFBEA5BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7CCFF6-E426-4DA2-BBE6-06FCFBEA5BB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

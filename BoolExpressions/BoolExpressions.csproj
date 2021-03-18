@@ -16,7 +16,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>netcoreapp5.0</TargetFramework>
     </PropertyGroup>
     
     <ItemGroup>
@@ -24,6 +24,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <PackageReference Include="DecisionDiagrams" Version="1.0.5" />
       <PackageReference Include="Optional" Version="4.0.0" />
     </ItemGroup>
 </Project>

@@ -8,18 +8,18 @@ namespace BoolExpressions.NonCanonicalForm
     {
         public static bool Execute<T>(
             INcfExpression<T> ncfExpression,
-            Dictionary<T, bool> values)
+            Dictionary<T, bool> valueTable)
         {
             switch (ncfExpression)
             {
                 case NcfVariable<T> v:
-                    return values[v.Value];
+                    return valueTable[v.Value];
                 case NcfAndBlock<T> and:
-                    return and.TermList.All(t => Execute(t, values));
-                case NcfOrBlock<T> and:
-                    return and.TermList.Any(t => Execute(t, values));
+                    return Execute(and.TermA, valueTable) && Execute(and.TermB, valueTable);
+                case NcfOrBlock<T> or:
+                    return Execute(or.TermA, valueTable) || Execute(or.TermB, valueTable);
                 case NcfNot<T> not:
-                    return !Execute(not.NcfExpression, values);
+                    return !Execute(not.NcfExpression, valueTable);
                 default:
                     throw new ArgumentException(
                         message: "pattern matching in C# is sucks",
@@ -33,10 +33,15 @@ namespace BoolExpressions.NonCanonicalForm
             switch (ncfExpression)
             {
                 case NcfVariable<T> v:
-                    return new HashSet<T> {v.Value};
-                case INcfBlock<T> blockOf:
+                    return new HashSet<T> { v.Value };
+                case NcfAndBlock<T> and:
                     return new HashSet<T>(
-                        collection: blockOf.TermList.SelectMany(GetVariables));
+                        GetVariables(and.TermA)
+                            .Concat(GetVariables(and.TermB)));
+                case NcfOrBlock<T> or:
+                    return new HashSet<T>(
+                        GetVariables(or.TermA)
+                            .Concat(GetVariables(or.TermB)));
                 case NcfNot<T> not:
                     return GetVariables(ncfExpression: not.NcfExpression);
                 default:

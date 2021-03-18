@@ -11,17 +11,14 @@ namespace UnitTests.DisjunctiveNormalFormFactory
             var builder = new NonCanonicalBoolExpressionBuilder<string>();
 
             var exp = builder.Or(
-                    new NcfVariable<string>("A"),
+                new NcfVariable<string>("A"),
                 builder.And(
                     new NcfVariable<string>("B"),
                     new NcfVariable<string>("C")));
 
-            var dnfExp = BoolExpressions.DisjunctiveNormalFormFactory
+            BoolExpressions.DisjunctiveNormalFormFactory
+                .Factory
                 .Build(ncfExpression: exp);
-
-            Assert.Equal(
-                expected: 5,
-                actual: dnfExp.AndBlockSet.Count);
         }
 
         [Fact]
@@ -37,11 +34,8 @@ namespace UnitTests.DisjunctiveNormalFormFactory
                     new NcfVariable<string>("D")));
 
             var dnfExp = BoolExpressions.DisjunctiveNormalFormFactory
+                .Factory
                 .Build(ncfExpression: exp);
-
-            Assert.Equal(
-                expected: 13,
-                actual: dnfExp.AndBlockSet.Count);
         }
     }
 }
