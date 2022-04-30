@@ -16,7 +16,8 @@ namespace UnitTests.DisjunctiveNormalFormFactory
                     new NcfVariable<string>("B"),
                     new NcfVariable<string>("C")));
 
-            BoolExpressions.DisjunctiveNormalFormFactory
+            BoolExpressions
+                .DisjunctiveNormalFormFactory
                 .Factory
                 .Build(ncfExpression: exp);
         }
@@ -33,7 +34,8 @@ namespace UnitTests.DisjunctiveNormalFormFactory
                     new NcfVariable<string>("C"),
                     new NcfVariable<string>("D")));
 
-            var dnfExp = BoolExpressions.DisjunctiveNormalFormFactory
+            var dnfExp = BoolExpressions
+                .DisjunctiveNormalFormFactory
                 .Factory
                 .Build(ncfExpression: exp);
         }

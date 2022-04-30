@@ -1,0 +1,37 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Chizh\.nuget\packages\decisiondiagrams\1.0.5\lib\netstandard2.0\DecisionDiagrams.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0b81d5e2_002D7cbf_002D4c09_002D8622_002D93de2cf26cf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WorkFineB #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::79EF7A85-3DA9-4260-BCB7-D0F49DF46845::.NETCoreApp,Version=v3.1::UnitTests.DisjunctiveNormalFormFactory.BuildTests.WorkFineB&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=57353275_002D360b_002D4aa4_002Dba9b_002D4f093bed4271/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WorkFineB" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::79EF7A85-3DA9-4260-BCB7-D0F49DF46845::.NETCoreApp,Version=v3.1::UnitTests.DisjunctiveNormalFormFactory.BuildTests.WorkFineB&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::79EF7A85-3DA9-4260-BCB7-D0F49DF46845::.NETCoreApp,Version=v3.1::UnitTests.DisjunctiveNormalFormFactory.BuildTests.WorkFineA&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=574fa4fd_002Da018_002D4023_002Da03a_002D41c19a11df85/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WorkFineB #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::79EF7A85-3DA9-4260-BCB7-D0F49DF46845::.NETCoreApp,Version=v3.1::UnitTests.DisjunctiveNormalFormFactory.BuildTests.WorkFineB&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6bed01c4_002Dfc41_002D44fc_002D92e4_002Da8f76b2f8fcd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WorkFineB #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::79EF7A85-3DA9-4260-BCB7-D0F49DF46845::.NETCoreApp,Version=v3.1::UnitTests.DisjunctiveNormalFormFactory.BuildTests.WorkFineB&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8294d30e_002D8f6e_002D4e6a_002Da126_002Dd2f552fa1c6d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WorkFineB #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::79EF7A85-3DA9-4260-BCB7-D0F49DF46845::.NETCoreApp,Version=v3.1::UnitTests.DisjunctiveNormalFormFactory.BuildTests.WorkFineB&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::79EF7A85-3DA9-4260-BCB7-D0F49DF46845::.NETCoreApp,Version=v3.1::UnitTests.DisjunctiveNormalFormFactory.BuildTests.WorkFineA&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=88cd7a10_002D2cf2_002D4078_002D93ae_002D8f346433d963/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="WorkFineA" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::79EF7A85-3DA9-4260-BCB7-D0F49DF46845::.NETCoreApp,Version=v3.1::UnitTests.DisjunctiveNormalFormFactory.BuildTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=implicants/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

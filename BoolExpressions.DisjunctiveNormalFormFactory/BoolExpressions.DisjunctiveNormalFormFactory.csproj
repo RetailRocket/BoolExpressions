@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp5.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DecisionDiagrams" Version="1.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BoolExpressions\BoolExpressions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="licenses\LICENSE.txt">
+        <Pack>true</Pack>
+        <PackagePath>LICENSE.txt</PackagePath>
+      </None>
+    </ItemGroup>
+
+</Project>
